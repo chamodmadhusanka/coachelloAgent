@@ -1,0 +1,317 @@
+openapi: 3.0.0
+info:
+  title: The coach API service
+  description: >-
+    A simple service to manage coaches and their calendars, now with
+    conversational event creation.
+  version: 1.0.0
+servers:
+  - url: https://agenttest.in.ngrok.io/api
+    description: The repair API server
+paths:
+  /coach/{coach_id}/events:
+    get:
+      operationId: getCoachEvents
+      summary: Get events for a coach by date range and time zone
+      description: Returns events for a coach within a specific date range and time zone
+      parameters:
+        - name: coach_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: start_date
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: end_date
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: time_zone
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Coach events retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  error:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      events:
+                        type: object
+                        additionalProperties:
+                          type: array
+                          items:
+                            type: string
+                            description: Time range of the event
+                      coach_time_zone:
+                        type: string
+        "400":
+          description: Invalid request parameters
+        "500":
+          description: Failed to retrieve events
+  /coach/{id}:
+    get:
+      operationId: getCoachDetails
+      summary: Get details of a coach by ID
+      description: >-
+        Returns coach details including first name, last name, email, phone
+        number, image URL, and timezone
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: A single coach
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Status message
+                  error:
+                    type: boolean
+                    description: Error flag
+                  data:
+                    type: object
+                    properties:
+                      first_name:
+                        type: string
+                      last_name:
+                        type: string
+                      email:
+                        type: string
+                      phone_number:
+                        type: string
+                      image_url:
+                        type: string
+                        format: uri
+                      timezone:
+                        type: string
+        "404":
+          description: Coach not found
+  /repairs:
+    get:
+      operationId: listRepairs
+      summary: List all repairs
+      description: Returns a list of repairs with their details and images
+      parameters:
+        - name: assignedTo
+          in: query
+          description: Filter repairs by who they're assigned to
+          schema:
+            type: string
+          required: false
+      responses:
+        "200":
+          description: A list of repairs
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: The unique identifier of the repair
+                        title:
+                          type: string
+                          description: The short summary of the repair
+                        description:
+                          type: string
+                          description: The detailed description of the repair
+                        assignedTo:
+                          type: string
+                          description: The user responsible for the repair
+                        date:
+                          type: string
+                          format: date-time
+                          description: >-
+                            The date and time when the repair is scheduled or
+                            completed
+                        image:
+                          type: string
+                          format: uri
+                          description: >-
+                            The URL of the image of the item to be repaired or
+                            the repair process
+  /coach/calendar/event:
+    post:
+      operationId: createEvent
+      summary: Create a new event for a coach, supporting conversational prompts.
+      description: This endpoint allows you to create a new event for a coach. If certain fields are missing, the system will intelligently prompt for those missing details in the next interactions until all the necessary details are gathered.
+      requestBody:
+        description: JSON payload containing event details and user information. Missing details can be provided later interactively.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                coach_id:
+                  type: integer
+                  description: The unique ID of the coach
+                coach_time_zone:
+                  type: string
+                  description: Time zone of the coach
+                  default: Asia/Colombo
+                company_id:
+                  type: integer
+                  description: Id of the company
+                  default: 1
+                event:
+                  type: object
+                  properties:
+                    start_time:
+                      type: string
+                      format: date-time
+                      description: Start time of the event
+                      example: 2024-11-04T10:00:00
+                    end_time:
+                      type: string
+                      format: date-time
+                      description: End time of the event
+                      example: 2024-11-04T11:00:00
+                    is_consented:
+                      type: boolean
+                      description: Consent to event participation
+                      default: false
+                    is_credit_deducted:
+                      type: boolean
+                      description: Whether credit is deducted for booking
+                      default: false
+                    meeting_id:
+                      type: integer
+                      nullable: true
+                      description: The meeting ID, if applicable
+                    reschedule:
+                      type: boolean
+                      description: If the event is a reschedule
+                      default: false
+                    tripartite_email:
+                      type: string
+                      format: email
+                      description: The tripartite email address, if applicable
+                user:
+                  type: object
+                  properties:
+                    email:
+                      type: string
+                      format: email
+                      description: Email of the user
+                      default: lasitha.work@gmail.com
+                    first_name:
+                      type: string
+                      description: First name of the user
+                      default: Lasitha
+                    last_name:
+                      type: string
+                      description: Last name of the user
+                      default: Jayawardana
+                    medium:
+                      type: string
+                      description: Medium through which the event is booked (e.g., website)
+                      default: teams
+                    user_comment:
+                      type: string
+                      description: User comments associated with the event
+                user_time_zone:
+                  type: string
+                  description: Time zone of the user
+              required:
+                - user_time_zone
+                - coach_id
+                - company_id
+                - event
+                - user
+      responses:
+        200:
+          description: Event created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Event created successfully
+                  data:
+                    type: object
+                    properties:
+                      coach_id:
+                        type: integer
+                        description: The ID of the coach associated with the event
+                      event:
+                        type: object
+                        properties:
+                          start_time:
+                            type: string
+                            format: date-time
+                            description: Start time of the event
+                          end_time:
+                            type: string
+                            format: date-time
+                            description: End time of the event
+        400:
+          description: Invalid request payload
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: please provide the missing details.
+                  error:
+                    type: boolean
+                    example: true
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Failed to create event
+                  error:
+                    type: boolean
+                    example: true
+        422:
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Failed to create event- Invalid time range
+                  error:
+                    type: boolean
+                    example: true

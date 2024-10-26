@@ -1,0 +1,177 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/copilot/plugin/v2.1/schema.json",
+  "schema_version": "v2.1",
+  "name_for_human": "coachelloAgent",
+  "description_for_human": "A simple service to manage coaches and their calendars, now with conversational event creation.",
+  "namespace": "coachelloAgent",
+  "functions": [
+    {
+      "name": "getCoachEvents",
+      "description": "Returns events for a coach within a specific date range and time zone",
+      "capabilities": {
+        "response_semantics": {
+          "data_path": "$",
+          "properties": {
+            "title": "$.message",
+            "subtitle": "$.error"
+          }
+        }
+      }
+    },
+    {
+      "name": "getCoachDetails",
+      "description": "Returns coach details including first name, last name, email, phone number, image URL, and timezone",
+      "capabilities": {
+        "response_semantics": {
+          "data_path": "$",
+          "properties": {
+            "title": "$.data.first_name",
+            "subtitle": "$.message"
+          },
+          "static_template": {
+            "type": "AdaptiveCard",
+            "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+            "version": "1.5",
+            "body": [
+              {
+                "type": "TextBlock",
+                "text": "message: ${if(message, message, 'N/A')}",
+                "wrap": true
+              },
+              {
+                "type": "TextBlock",
+                "text": "error: ${if(error, error, 'N/A')}",
+                "wrap": true
+              },
+              {
+                "type": "TextBlock",
+                "text": "data.first_name: ${if(data.first_name, data.first_name, 'N/A')}",
+                "wrap": true
+              },
+              {
+                "type": "TextBlock",
+                "text": "data.last_name: ${if(data.last_name, data.last_name, 'N/A')}",
+                "wrap": true
+              },
+              {
+                "type": "TextBlock",
+                "text": "data.email: ${if(data.email, data.email, 'N/A')}",
+                "wrap": true
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "listRepairs",
+      "description": "Returns a list of repairs with their details and images",
+      "capabilities": {
+        "response_semantics": {
+          "data_path": "$.results",
+          "properties": {
+            "title": "$.title",
+            "subtitle": "$.id"
+          },
+          "static_template": {
+            "type": "AdaptiveCard",
+            "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+            "version": "1.5",
+            "body": [
+              {
+                "type": "Container",
+                "$data": "${$root}",
+                "items": [
+                  {
+                    "type": "TextBlock",
+                    "text": "id: ${if(id, id, 'N/A')}",
+                    "wrap": true
+                  },
+                  {
+                    "type": "TextBlock",
+                    "text": "title: ${if(title, title, 'N/A')}",
+                    "wrap": true
+                  },
+                  {
+                    "type": "TextBlock",
+                    "text": "description: ${if(description, description, 'N/A')}",
+                    "wrap": true
+                  },
+                  {
+                    "type": "TextBlock",
+                    "text": "assignedTo: ${if(assignedTo, assignedTo, 'N/A')}",
+                    "wrap": true
+                  },
+                  {
+                    "type": "TextBlock",
+                    "text": "date: ${if(date, date, 'N/A')}",
+                    "wrap": true
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "createEvent",
+      "description": "Creates or updates an event, progressively collecting required information. If any details are missing, the system retains the previously provided data and prompts for the missing information in subsequent interactions.",
+      "capabilities": {
+        "response_semantics": {
+          "data_path": "$.message",
+          "properties": {
+            "title": "Event partially created, need more details.",
+            "subtitle": "Missing details: ${missing_details.join(', ')}"
+          },
+          "static_template": {
+            "type": "AdaptiveCard",
+            "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+            "version": "1.5",
+            "body": [
+              {
+                "type": "TextBlock",
+                "text": "Please provide the following details: ${missing_details.join(', ')}",
+                "wrap": true
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "runtimes": [
+    {
+      "type": "OpenApi",
+      "auth": {
+        "type": "None"
+      },
+      "spec": {
+        "url": "apiSpecificationFile/openapi.yaml"
+      },
+      "run_for_functions": [
+        "getCoachEvents",
+        "getCoachDetails",
+        "listRepairs",
+        "createEvent"
+      ]
+    }
+  ],
+  "capabilities": {
+    "localization": {},
+    "conversation_starters": [
+      {
+        "text": "List all repairs"
+      },
+      {
+        "text": "Get details of a coach"
+      },
+      {
+        "text": "Get events of a coach"
+      },
+      {
+        "text": "Create an event"
+      }
+    ]
+  }
+}
