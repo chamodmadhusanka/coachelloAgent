@@ -7,11 +7,11 @@
   "conversation_starters": [
     {
       "title": "Get Coach details",
-      "text": "Get Coach details for Coach 10"
+      "text": "Get Coach details for Coach Maria Aragon"
     },
     {
       "title": "Create new event with",
-      "text": "I need create new event with Coach"
+      "text": "I need create new event with Coach Maria Aragon"
     },
     {
       "title": "Create new event on",

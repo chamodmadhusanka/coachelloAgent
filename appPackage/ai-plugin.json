@@ -35,27 +35,23 @@
             "body": [
               {
                 "type": "TextBlock",
-                "text": "message: ${if(message, message, 'N/A')}",
+                "size": "Medium",
+                "weight": "Bolder",
+                "text": "Coach Details"
+              },
+              {
+                "type": "TextBlock",
+                "text": "First Name: ${if(data.first_name, data.first_name, 'N/A')}",
                 "wrap": true
               },
               {
                 "type": "TextBlock",
-                "text": "error: ${if(error, error, 'N/A')}",
+                "text": "Last Name: ${if(data.last_name, data.last_name, 'N/A')}",
                 "wrap": true
               },
               {
                 "type": "TextBlock",
-                "text": "data.first_name: ${if(data.first_name, data.first_name, 'N/A')}",
-                "wrap": true
-              },
-              {
-                "type": "TextBlock",
-                "text": "data.last_name: ${if(data.last_name, data.last_name, 'N/A')}",
-                "wrap": true
-              },
-              {
-                "type": "TextBlock",
-                "text": "data.email: ${if(data.email, data.email, 'N/A')}",
+                "text": "Email: ${if(data.email, data.email, 'N/A')}",
                 "wrap": true
               }
             ]
@@ -121,8 +117,8 @@
         "response_semantics": {
           "data_path": "$.message",
           "properties": {
-            "title": "Event partially created, need more details.",
-            "subtitle": "Missing details: ${missing_details.join(', ')}"
+            "title": "$.message",
+            "subtitle": "$.error"
           },
           "static_template": {
             "type": "AdaptiveCard",
@@ -131,8 +127,44 @@
             "body": [
               {
                 "type": "TextBlock",
-                "text": "Please provide the following details: ${missing_details.join(', ')}",
+                "text": "Event succesfully created",
                 "wrap": true
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "getPreviousCoaches",
+      "description": "Retrieves a list of previous coaches based on the client's email address.",
+      "capabilities": {
+        "response_semantics": {
+          "data_path": "$.data",
+          "properties": {
+            "title": "Previous Coaches",
+            "subtitle": "$.message"
+          },
+          "static_template": {
+            "type": "AdaptiveCard",
+            "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+            "version": "1.5",
+            "body": [
+              {
+                "type": "TextBlock",
+                "text": "Here is a list of your previous coaches:",
+                "wrap": true
+              },
+              {
+                "type": "Container",
+                "$data": "{data}",
+                "items": [
+                  {
+                    "type": "TextBlock",
+                    "text": "${data}",
+                    "wrap": true
+                  }
+                ]
               }
             ]
           }
@@ -153,7 +185,8 @@
         "getCoachEvents",
         "getCoachDetails",
         "listRepairs",
-        "createEvent"
+        "createEvent",
+        "getPreviousCoaches"
       ]
     }
   ],

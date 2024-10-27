@@ -315,3 +315,40 @@ paths:
                   error:
                     type: boolean
                     example: true
+  /coach/previous_coaches/{client_email}:
+    get:
+      operationId: getPreviousCoaches
+      summary: Retrieve a list of previous coaches for a client
+      description: Returns a list of coaches that a specific client has previously booked.
+      parameters:
+        - in: path
+          name: client_email
+          required: true
+          schema:
+            type: string
+            format: email
+          description: The email address of the client to retrieve previous coaches for
+      responses:
+        "200":
+          description: Successfully retrieved the list of previous coaches
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  error:
+                    type: boolean
+                    example: false
+                  data:
+                    type: array
+                    items:
+                      type: string
+                    description: A list of coach names
+        "400":
+          description: Bad request, e.g., malformed email format
+        "404":
+          description: Client not found
+        "500":
+          description: Internal server error
