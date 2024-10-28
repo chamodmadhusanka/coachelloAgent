@@ -117,7 +117,7 @@
         "response_semantics": {
           "data_path": "$.message",
           "properties": {
-            "title": "$.message",
+            "title": "Event created successfully",
             "subtitle": "$.error"
           },
           "static_template": {
@@ -170,6 +170,46 @@
           }
         }
       }
+    },
+    {
+      "name": "getUpcomingMeeting",
+      "description": "Returns the upcoming meeting details for a specific client.",
+      "capabilities": {
+        "response_semantics": {
+          "data_path": "$",
+          "properties": {
+            "title": "$.meeting_start_time",
+            "subtitle": "$.coach_name"
+          },
+          "static_template": {
+            "type": "AdaptiveCard",
+            "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+            "version": "1.5",
+            "body": [
+              {
+                "type": "TextBlock",
+                "text": "Upcoming Meeting Details",
+                "wrap": true
+              },
+              {
+                "type": "TextBlock",
+                "text": "Start Time: ${meeting_start_time}",
+                "wrap": true
+              },
+              {
+                "type": "TextBlock",
+                "text": "End Time: ${meeting_end_time}",
+                "wrap": true
+              },
+              {
+                "type": "TextBlock",
+                "text": "Coach: ${coach_name}",
+                "wrap": true
+              }
+            ]
+          }
+        }
+      }
     }
   ],
   "runtimes": [
@@ -186,7 +226,8 @@
         "getCoachDetails",
         "listRepairs",
         "createEvent",
-        "getPreviousCoaches"
+        "getPreviousCoaches",
+        "getUpcomingMeeting"
       ]
     }
   ],

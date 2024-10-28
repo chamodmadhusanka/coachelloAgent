@@ -163,7 +163,7 @@ paths:
     post:
       operationId: createEvent
       summary: Create a new event for a coach, supporting conversational prompts.
-      description: This endpoint allows you to create a new event for a coach. If certain fields are missing, the system will intelligently prompt for those missing details in the next interactions until all the necessary details are gathered.
+      description: This endpoint allows you to create a new event for a coach. If required fields are missing, the system will intelligently prompt for those missing details in the next interactions until all the necessary details are gathered.
       requestBody:
         description: JSON payload containing event details and user information. Missing details can be provided later interactively.
         required: true
@@ -212,10 +212,6 @@ paths:
                       type: boolean
                       description: If the event is a reschedule
                       default: false
-                    tripartite_email:
-                      type: string
-                      format: email
-                      description: The tripartite email address, if applicable
                 user:
                   type: object
                   properties:
@@ -259,23 +255,6 @@ paths:
                   message:
                     type: string
                     example: Event created successfully
-                  data:
-                    type: object
-                    properties:
-                      coach_id:
-                        type: integer
-                        description: The ID of the coach associated with the event
-                      event:
-                        type: object
-                        properties:
-                          start_time:
-                            type: string
-                            format: date-time
-                            description: Start time of the event
-                          end_time:
-                            type: string
-                            format: date-time
-                            description: End time of the event
         400:
           description: Invalid request payload
           content:
@@ -352,3 +331,41 @@ paths:
           description: Client not found
         "500":
           description: Internal server error
+  /meeting/{client_id}/upcoming-meeting:
+    get:
+      operationId: getUpcomingMeeting
+      summary: Get the upcoming meeting for a client
+      description: Returns the details of the upcoming meeting scheduled for a client based on their time zone
+      parameters:
+        - name: client_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: time_zone
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Upcoming meeting details retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meeting:
+                    type: object
+                    properties:
+                      date:
+                        type: string
+                        format: date-time
+                      title:
+                        type: string
+                      description:
+                        type: string
+        "400":
+          description: Invalid client ID or time zone
+        "500":
+          description: Server error in fetching meeting details
