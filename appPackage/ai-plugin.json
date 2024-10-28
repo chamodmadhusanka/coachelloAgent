@@ -1,9 +1,9 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/copilot/plugin/v2.1/schema.json",
   "schema_version": "v2.1",
-  "name_for_human": "coachelloAgent",
+  "name_for_human": "Coachello",
   "description_for_human": "A simple service to manage coaches and their calendars, now with conversational event creation.",
-  "namespace": "coachelloAgent",
+  "namespace": "Coachello",
   "functions": [
     {
       "name": "getCoachEvents",

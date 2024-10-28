@@ -6,7 +6,7 @@ info:
     conversational event creation.
   version: 1.0.0
 servers:
-  - url: https://agenttest.in.ngrok.io/api
+  - url: https://api.coachello.io/api
     description: The repair API server
 paths:
   /coach/{coach_id}/events:
@@ -219,7 +219,7 @@ paths:
                       type: string
                       format: email
                       description: Email of the user
-                      default: lasitha.work@gmail.com
+                      default: lasitha@coachellodev.onmicrosoft.com
                     first_name:
                       type: string
                       description: First name of the user
