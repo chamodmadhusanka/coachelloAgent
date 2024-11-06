@@ -7,15 +7,15 @@
   "conversation_starters": [
     {
       "title": "Get Coach details",
-      "text": "Get Coach details for Coach Maria Aragon"
+      "text": "Get Coach details for coach Marie Aragon"
     },
     {
-      "title": "Create new event with",
-      "text": "I need create new event with Coach Maria Aragon"
+      "title": "Book a new coaching session with",
+      "text": "I need book a new coaching session with coach Marie Aragon"
     },
     {
-      "title": "Create new event on",
-      "text": "I need to create a event on "
+      "title": "Book a new coaching session on",
+      "text": "I need to book a new coaching session on "
     }
   ],
   "actions": [
