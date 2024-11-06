@@ -14,12 +14,12 @@
     "outline": "outline.png"
   },
   "name": {
-    "short": "Coachello${{APP_NAME_SUFFIX}}",
-    "full": "Full name for Coachello"
+    "short": "coachelloTest${{APP_NAME_SUFFIX}}",
+    "full": "Full name for coachelloTest"
   },
   "description": {
-    "short": "Short description for Coachello",
-    "full": "Full description for Coachello"
+    "short": "Short description for coachelloTest",
+    "full": "Full description for coachelloTest"
   },
   "accentColor": "#FFFFFF",
   "copilotAgents": {
