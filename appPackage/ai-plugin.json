@@ -193,6 +193,11 @@
               },
               {
                 "type": "TextBlock",
+                "text": "Meeting Id: ${id}",
+                "wrap": true
+              },
+              {
+                "type": "TextBlock",
                 "text": "Start Time: ${meeting_start_time}",
                 "wrap": true
               },

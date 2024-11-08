@@ -183,6 +183,9 @@ paths:
                   type: integer
                   description: Id of the company
                   default: 1
+                reschedule:
+                  type: boolean
+                  description: If the event is a reschedule
                 event:
                   type: object
                   properties:
@@ -208,10 +211,6 @@ paths:
                       type: integer
                       nullable: true
                       description: The meeting ID, if applicable
-                    reschedule:
-                      type: boolean
-                      description: If the event is a reschedule
-                      default: false
                 user:
                   type: object
                   properties:
@@ -358,6 +357,8 @@ paths:
                   meeting:
                     type: object
                     properties:
+                      id:
+                        type: string
                       date:
                         type: string
                         format: date-time
