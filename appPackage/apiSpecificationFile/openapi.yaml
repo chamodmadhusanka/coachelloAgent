@@ -6,10 +6,88 @@ info:
     conversational event creation.
   version: 1.0.0
 servers:
-  - url: https://api.coachello.io/api
+  - url: https://api.coachello.ngrok.io/api
     description: The repair API server
 paths:
-  /coach/{coach_id}/events:
+  /copilot/testing-system:
+    get:
+      operationId: testSystem
+      summary: Get test system response
+      description: Get test system response
+      responses:
+        "200":
+          description: Test system response render successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "400":
+          description: Invalid request parameters
+        "500":
+          description: Failed to retrieve events
+  /copilot/me:
+    get:
+      operationId: getUserDetails
+      summary: Get user details
+      description: Get logged user details
+      responses:
+        "200":
+          description: Test system response render successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  company_id:
+                    type: integer
+                  user_id:
+                    type: integer
+                  guide_step:
+                    type: string
+                    nullable: true
+                  preferred_language_id:
+                    type: integer
+                    nullable: true
+                  session_reminder_state:
+                    type: string
+                    nullable: true
+                  max_credit:
+                    type: integer
+                    nullable: true
+                  _ai_session_reminder_state:
+                    type: string
+                    nullable: true
+                  new_app:
+                    type: boolean
+                  platform_preference:
+                    type: string
+                  reflection_reminder_state:
+                    type: string
+                    nullable: true
+                  label_id:
+                    type: integer
+                    nullable: true
+                  feedback360_reminder_state:
+                    type: string
+                    nullable: true
+                  created_at:
+                    type: string
+                    format: date-time
+                  guide_done:
+                    type: boolean
+                    example: true
+                  updated_at:
+                    type: string
+        "400":
+          description: Invalid request parameters
+        "500":
+          description: Failed to retrieve user details
+  /copilot/{coach_id}/events:
     get:
       operationId: getCoachEvents
       summary: Get events for a coach by date range and time zone
@@ -20,23 +98,12 @@ paths:
           required: true
           schema:
             type: integer
-        - name: start_date
-          in: query
-          required: true
-          schema:
-            type: string
-            format: date
         - name: end_date
           in: query
           required: true
           schema:
             type: string
             format: date
-        - name: time_zone
-          in: query
-          required: true
-          schema:
-            type: string
       responses:
         "200":
           description: Coach events retrieved successfully
@@ -159,7 +226,7 @@ paths:
                           description: >-
                             The URL of the image of the item to be repaired or
                             the repair process
-  /coach/calendar/event:
+  /copilot/calendar/event:
     post:
       operationId: createEvent
       summary: Create a new event for a coach, supporting conversational prompts.
@@ -175,14 +242,6 @@ paths:
                 coach_id:
                   type: integer
                   description: The unique ID of the coach
-                coach_time_zone:
-                  type: string
-                  description: Time zone of the coach
-                  default: Asia/Colombo
-                company_id:
-                  type: integer
-                  description: Id of the company
-                  default: 1
                 event:
                   type: object
                   properties:
@@ -196,54 +255,13 @@ paths:
                       format: date-time
                       description: End time of the event
                       example: 2024-11-04T11:00:00
-                    is_consented:
-                      type: boolean
-                      description: Consent to event participation
-                      default: false
-                    is_credit_deducted:
-                      type: boolean
-                      description: Whether credit is deducted for booking
-                      default: false
-                    meeting_id:
-                      type: integer
-                      nullable: true
-                      description: The meeting ID, if applicable
-                    reschedule:
-                      type: boolean
-                      description: If the event is a reschedule
-                      default: false
-                user:
-                  type: object
-                  properties:
-                    email:
-                      type: string
-                      format: email
-                      description: Email of the user
-                      default: lasitha@coachellodev.onmicrosoft.com
-                    first_name:
-                      type: string
-                      description: First name of the user
-                      default: Lasitha
-                    last_name:
-                      type: string
-                      description: Last name of the user
-                      default: Jayawardana
-                    medium:
-                      type: string
-                      description: Medium through which the event is booked (e.g., website)
-                      default: teams
-                    user_comment:
+                user_comment:
                       type: string
                       description: User comments associated with the event
-                user_time_zone:
-                  type: string
-                  description: Time zone of the user
               required:
-                - user_time_zone
                 - coach_id
-                - company_id
                 - event
-                - user
+                - user_comment
       responses:
         200:
           description: Event created successfully
@@ -331,17 +349,12 @@ paths:
           description: Client not found
         "500":
           description: Internal server error
-  /meeting/{client_id}/upcoming-meeting:
+  /copilot/upcoming-meeting:
     get:
       operationId: getUpcomingMeeting
       summary: Get the upcoming meeting for a client
       description: Returns the details of the upcoming meeting scheduled for a client based on their time zone
       parameters:
-        - name: client_id
-          in: path
-          required: true
-          schema:
-            type: integer
         - name: time_zone
           in: query
           required: true

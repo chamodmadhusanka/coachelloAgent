@@ -210,13 +210,85 @@
           }
         }
       }
+    },
+    {
+      "name": "testSystem",
+      "description": "Returns test system response.",
+      "capabilities": {
+        "response_semantics": {
+          "data_path": "$",
+          "properties": {
+            "title": "$.testing",
+            "subtitle": "$.testing"
+          },
+          "static_template": {
+            "type": "AdaptiveCard",
+            "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+            "version": "1.5",
+            "body": [
+              {
+                "type": "TextBlock",
+                "text": "${testing}",
+                "wrap": true
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "getUserDetails",
+      "description": "Get logged user details",
+      "capabilities": {
+        "response_semantics": {
+          "data_path": "$",
+          "properties": {
+            "title": "$.id",
+            "subtitle": "$.comapny_id"
+          },
+          "static_template": {
+            "type": "AdaptiveCard",
+            "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+            "version": "1.5",
+            "body": [
+              {
+                "type": "TextBlock",
+                "size": "Medium",
+                "weight": "Bolder",
+                "text": "User Details"
+              },
+              {
+                "type": "TextBlock",
+                "text": "Client ID: ${if(data.id, data.id, 'N/A')}",
+                "wrap": true
+              },
+              {
+                "type": "TextBlock",
+                "text": "First Name: ${if(data.first_name, data.first_name, 'N/A')}",
+                "wrap": true
+              },
+              {
+                "type": "TextBlock",
+                "text": "Last Name: ${if(data.last_name, data.last_name, 'N/A')}",
+                "wrap": true
+              },
+              {
+                "type": "TextBlock",
+                "text": "Email: ${if(data.email, data.email, 'N/A')}",
+                "wrap": true
+              }
+            ]
+          }
+        }
+      }
     }
   ],
   "runtimes": [
     {
       "type": "OpenApi",
       "auth": {
-        "type": "None"
+        "type": "OAuthPluginVault",
+        "reference_id": "MWIzY2QzMDQtNWFkYy00ZTUxLTg2NDItZjRjNjg3NGQwZDZiIyNiMDg0NThjMy1hOTljLTQ3YmQtYWIyMi0yOGMxOTIyNzQ3NGY="
       },
       "spec": {
         "url": "apiSpecificationFile/openapi.yaml"
@@ -227,7 +299,9 @@
         "listRepairs",
         "createEvent",
         "getPreviousCoaches",
-        "getUpcomingMeeting"
+        "getUpcomingMeeting",
+        "testSystem",
+        "getUserDetails"
       ]
     }
   ],
