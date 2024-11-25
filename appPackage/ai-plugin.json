@@ -349,7 +349,38 @@
           }
         }
       }
-    }
+    },
+    {
+      "name": "chatWithAICoach",
+      "description": "Responds to a user prompt utilizing Coachello's AI Coach.",
+      "capabilities": {
+        "response_semantics": {
+          "data_path": "$.message",
+          "properties": {
+            "title": "Event created successfully",
+            "subtitle": "$.error"
+          },
+          "static_template": {
+            "type": "AdaptiveCard",
+            "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+            "version": "1.5",
+            "body": [
+              {
+                "type": "TextBlock",
+                "text": "Response Obtained Successfully",
+                "wrap": true
+              },
+              {
+                "type": "TextBlock",
+                "text": "${error ? 'Error occurred. Please check details.' : ''}",
+                "wrap": true,
+                "isVisible": "${error}"
+              }
+            ]
+          }
+        }
+      }
+    },
   ],
   "runtimes": [
     {
@@ -371,7 +402,8 @@
         "cancelCoachingSession",
         "rescheduleCoachingSession",
         "testSystem",
-        "getUserDetails"
+        "getUserDetails",
+        "chatWithAICoach"
       ]
     }
   ],

@@ -416,7 +416,7 @@ paths:
             schema:
               type: object
               properties:
-                tart_time:
+                start_time:
                     type: string
                     format: date-time
                     description: Start time of the event to be rescheduled
@@ -459,6 +459,40 @@ paths:
                     type: boolean
                   data:
                     type: object
+        "400":
+          description: Invalid request parameters
+        "500":
+          description: Failed to reschedule
+  /copilot/ai/chat/test:
+    post:
+      operationId: chatWithAICoach
+      summary: chat with AI Coach and obtain a response
+      description: Returns the response of an AI Coach for a user prompt
+      requestBody:
+        description: JSON payload containing user prompt details.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                prompt:
+                  type: string
+                  description: The user's prompt to which AI Coach should respond.
+                  example: How can I improve my leadership skills?
+              required:
+                - prompt
+      responses:
+        "200":
+          description: Event rescheduleled successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reply:
+                    type: string
+                    description: The response of the AI Coach to the user's prompt.
         "400":
           description: Invalid request parameters
         "500":
