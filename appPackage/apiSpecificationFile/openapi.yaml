@@ -87,23 +87,31 @@ paths:
           description: Invalid request parameters
         "500":
           description: Failed to retrieve user details
-  /copilot/{coach_id}/events:
+  /copilot/coach/events:
     get:
       operationId: getCoachEvents
-      summary: Get events for a coach by date range and time zone
-      description: Returns events for a coach within a specific date range and time zone
+      summary: Get events for a coach by date range
+      description: Returns events for a coach from today and before a certain end date
       parameters:
-        - name: coach_id
-          in: path
+        - name: coach_name
+          in: query
           required: true
           schema:
-            type: integer
+            type: string
+        - name: start_date
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+            example: 2024-11-04T10:00:00
         - name: end_date
           in: query
           required: true
           schema:
             type: string
             format: date
+            example: 2024-11-04T10:00:00
       responses:
         "200":
           description: Coach events retrieved successfully
@@ -228,9 +236,9 @@ paths:
                             the repair process
   /copilot/calendar/event:
     post:
-      operationId: createEvent
-      summary: Create a new event for a coach, supporting conversational prompts.
-      description: This endpoint allows you to create a new event for a coach. If required fields are missing, the system will intelligently prompt for those missing details in the next interactions until all the necessary details are gathered.
+      operationId: bookCoachingSession
+      summary: Books a coaching session with a coach and return information of whether the booking process is successful or not.
+      description: This endpoint allows you to book a new coaching session with a coach.This endpoint would return whether the booking is successful or failed.
       requestBody:
         description: JSON payload containing event details and user information. Missing details can be provided later interactively.
         required: true
@@ -239,9 +247,9 @@ paths:
             schema:
               type: object
               properties:
-                coach_id:
-                  type: integer
-                  description: The unique ID of the coach
+                coach_name:
+                  type: string
+                  description: The name of the coach
                 event:
                   type: object
                   properties:
@@ -259,7 +267,7 @@ paths:
                       type: string
                       description: User comments associated with the event
               required:
-                - coach_id
+                - coach_name
                 - event
                 - user_comment
       responses:
@@ -273,8 +281,8 @@ paths:
                   message:
                     type: string
                     example: Event created successfully
-        400:
-          description: Invalid request payload
+        406:
+          description: Credit Consumption of the user has exceeded beyond specified limit
           content:
             application/json:
               schema:
@@ -282,11 +290,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: please provide the missing details.
-                  error:
-                    type: boolean
-                    example: true
-        500:
+        407:
           description: Internal server error
           content:
             application/json:
@@ -312,19 +316,11 @@ paths:
                   error:
                     type: boolean
                     example: true
-  /coach/previous_coaches/{client_email}:
+  /copilot/previous_coaches:
     get:
       operationId: getPreviousCoaches
       summary: Retrieve a list of previous coaches for a client
       description: Returns a list of coaches that a specific client has previously booked.
-      parameters:
-        - in: path
-          name: client_email
-          required: true
-          schema:
-            type: string
-            format: email
-          description: The email address of the client to retrieve previous coaches for
       responses:
         "200":
           description: Successfully retrieved the list of previous coaches
@@ -354,12 +350,6 @@ paths:
       operationId: getUpcomingMeeting
       summary: Get the upcoming meeting for a client
       description: Returns the details of the upcoming meeting scheduled for a client based on their time zone
-      parameters:
-        - name: time_zone
-          in: query
-          required: true
-          schema:
-            type: string
       responses:
         "200":
           description: Upcoming meeting details retrieved successfully
