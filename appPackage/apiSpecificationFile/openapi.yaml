@@ -403,3 +403,63 @@ paths:
           description: Invalid request parameters
         "500":
           description: Failed to cancel
+  /copilot/reschedule/event:
+    post:
+      operationId: rescheduleCoachingSession
+      summary: reschedule an booked event at a specific starting time
+      description: Returns the outcome of the reschedule process whether success or failure.
+      requestBody:
+        description: JSON payload containing event details and user information. Missing details can be provided later interactively.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                tart_time:
+                    type: string
+                    format: date-time
+                    description: Start time of the event to be rescheduled
+                    example: 2024-11-04T10:00:00
+                coach_name:
+                  type: string
+                  description: The name of the coach
+                event:
+                  type: object
+                  description: details of the new event to be created as a result of reschedule
+                  properties:
+                    start_time:
+                      type: string
+                      format: date-time
+                      description: Start time of the event created
+                      example: 2024-11-04T10:00:00
+                    end_time:
+                      type: string
+                      format: date-time
+                      description: End time of the event created
+                      example: 2024-11-04T11:00:00
+                user_comment:
+                      type: string
+                      description: User comments associated with the event
+              required:
+                - coach_name
+                - event
+                - user_comment
+      responses:
+        "200":
+          description: Event rescheduleled successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  error:
+                    type: boolean
+                  data:
+                    type: object
+        "400":
+          description: Invalid request parameters
+        "500":
+          description: Failed to reschedule

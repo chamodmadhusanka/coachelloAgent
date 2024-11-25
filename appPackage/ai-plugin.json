@@ -173,6 +173,37 @@
       }
     },
     {
+      "name": "rescheduleCoachingSession",
+      "description": "Reschedull a coaching session with a coach and return information of whether the booking process is successfully reschedulled or not.",
+      "capabilities": {
+        "response_semantics": {
+          "data_path": "$.message",
+          "properties": {
+            "title": "Event reschedulled successfully",
+            "subtitle": "$.error"
+          },
+          "static_template": {
+            "type": "AdaptiveCard",
+            "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+            "version": "1.5",
+            "body": [
+              {
+                "type": "TextBlock",
+                "text": "Event succesfully reschedulled",
+                "wrap": true
+              },
+              {
+                "type": "TextBlock",
+                "text": "${error ? 'Error occurred. Please check details.' : ''}",
+                "wrap": true,
+                "isVisible": "${error}"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
       "name": "getPreviousCoaches",
       "description": "Retrieves a list of previous coaches based on the client's email address.",
       "capabilities": {
@@ -338,6 +369,7 @@
         "getPreviousCoaches",
         "getUpcomingMeeting",
         "cancelCoachingSession",
+        "rescheduleCoachingSession",
         "testSystem",
         "getUserDetails"
       ]
