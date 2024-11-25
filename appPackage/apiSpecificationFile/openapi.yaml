@@ -372,3 +372,34 @@ paths:
           description: Invalid client ID or time zone
         "500":
           description: Server error in fetching meeting details
+  /copilot/cancel/booking:
+    delete:
+      operationId: cancelCoachingSession
+      summary: cancel an booked event at a specific starting time
+      description: Returns the outcome of the cancellation process whether success or failure.
+      parameters:
+        - name: meeting_start_time
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+            example: 2024-11-04T10:00:00
+      responses:
+        "200":
+          description: Event cancelled successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  error:
+                    type: boolean
+                  data:
+                    type: object
+        "400":
+          description: Invalid request parameters
+        "500":
+          description: Failed to cancel
