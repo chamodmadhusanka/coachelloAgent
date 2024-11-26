@@ -1,0 +1,13 @@
+authtoken: 24mLx6k3525bBtEEGVq2QjF9uBo_cuE4WCMtMambs9s8zi3r
+region: us
+version: 1
+tunnels:
+  first-app:
+    hostname: api.coachello.ngrok.io
+    addr: localhost:5000
+    proto: http
+  second-app:
+    hostname: app.coachello.ngrok.io
+    addr: 4200
+    proto: http
+    host-header: localhost:4200
