@@ -284,10 +284,10 @@
       "description": "Returns test system response.",
       "capabilities": {
         "response_semantics": {
-          "data_path": "$",
+          "data_path": "$.results",
           "properties": {
-            "title": "$.testing",
-            "subtitle": "$.testing"
+            "title": "Testing",
+            "subtitle": "$.message"
           },
           "static_template": {
             "type": "AdaptiveCard",
@@ -296,8 +296,20 @@
             "body": [
               {
                 "type": "TextBlock",
-                "text": "${testing}",
-                "wrap": true
+                "text": "Testing",
+                "weight": "Bolder",
+                "size": "Large",
+                "separator": true
+              },
+              {
+                "type": "Container",
+                "items": [
+                  {
+                    "type": "TextBlock",
+                    "text": "${message}",
+                    "wrap": true
+                  }
+                ]
               }
             ]
           }

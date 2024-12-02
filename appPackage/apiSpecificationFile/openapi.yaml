@@ -4,7 +4,7 @@ info:
   description: >-
     A simple service to manage coaches and their calendars, now with
     conversational event creation.
-  version: 1.0.0
+  version: 1.0.1
 servers:
   - url: https://api.coachello.ngrok.io/api
     description: The repair API server
@@ -22,8 +22,13 @@ paths:
               schema:
                 type: object
                 properties:
-                  message:
+                  results:
                     type: string
+                    items: 
+                      type: object
+                      properties: 
+                        message:  
+                          type: string
         "400":
           description: Invalid request parameters
         "500":
@@ -250,22 +255,19 @@ paths:
                 coach_name:
                   type: string
                   description: The name of the coach
-                event:
-                  type: object
-                  properties:
-                    start_time:
-                      type: string
-                      format: date-time
-                      description: Start time of the event
-                      example: 2024-11-04T10:00:00
-                    end_time:
-                      type: string
-                      format: date-time
-                      description: End time of the event
-                      example: 2024-11-04T11:00:00
+                start_time:
+                  type: string
+                  format: date-time
+                  description: Start time of the event
+                  example: 2024-11-04T10:00:00
+                end_time:
+                  type: string
+                  format: date-time
+                  description: End time of the event
+                  example: 2024-11-04T11:00:00
                 user_comment:
-                      type: string
-                      description: User comments associated with the event
+                  type: string
+                  description: User comments associated with the event
               required:
                 - coach_name
                 - event
@@ -383,7 +385,7 @@ paths:
           required: false
           schema:
             type: string
-            format: date
+            format: date-time
             example: 2024-11-04T10:00:00
       responses:
         "200":
@@ -416,7 +418,7 @@ paths:
             schema:
               type: object
               properties:
-                start_time:
+                previous_start_time:
                     type: string
                     format: date-time
                     description: Start time of the event to be rescheduled
@@ -424,20 +426,17 @@ paths:
                 coach_name:
                   type: string
                   description: The name of the coach
-                event:
-                  type: object
-                  description: details of the new event to be created as a result of reschedule
-                  properties:
-                    start_time:
-                      type: string
-                      format: date-time
-                      description: Start time of the event created
-                      example: 2024-11-04T10:00:00
-                    end_time:
-                      type: string
-                      format: date-time
-                      description: End time of the event created
-                      example: 2024-11-04T11:00:00
+                start_time:
+                  type: string
+                  format: date-time
+                  description: Start time of the event created
+                  example: 2024-11-04T10:00:00
+                end_time:
+                  type: string
+                  format: date-time
+                  description: End time of the event created
+                  example: 2024-11-04T11:00:00
+                    
                 user_comment:
                       type: string
                       description: User comments associated with the event
