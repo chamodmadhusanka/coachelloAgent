@@ -20,8 +20,8 @@
     ],
     "actions": [
         {
-            "id": "action_2",
-            "file": "ai-plugin_3.json"
+            "id": "action_1",
+            "file": "ai-plugin_1.json"
         }
     ]
 }
