@@ -6,7 +6,7 @@ info:
     conversational event creation.
   version: 1.0.1
 servers:
-  - url: https://api.coachello.io/api
+  - url: https://api.coachello.ngrok.io/api
     description: The repair API server
 paths:
   /copilot/cancel/booking:
@@ -42,51 +42,6 @@ paths:
           description: Invalid request parameters
         '500':
           description: Failed to cancel
-  /copilot/coach/{coach_name}:
-    get:
-      operationId: getCoachDetails
-      summary: Get details of a coach by ID
-      description: >-
-        Returns coach details including first name, last name, email, phone
-        number, image URL, and timezone
-      parameters:
-        - name: coach_name
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: A single coach
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    description: Status message
-                  error:
-                    type: boolean
-                    description: Error flag
-                  data:
-                    type: object
-                    properties:
-                      first_name:
-                        type: string
-                      last_name:
-                        type: string
-                      email:
-                        type: string
-                      phone_number:
-                        type: string
-                      image_url:
-                        type: string
-                        format: uri
-                      timezone:
-                        type: string
-        '404':
-          description: Coach not found
   /copilot/coach/events:
     get:
       operationId: getCoachEvents
@@ -104,14 +59,14 @@ paths:
           schema:
             type: string
             format: date
-            example: '2024-11-04T00:00:00.000Z'
+            example: 2024-11-04
         - name: end_date
           in: query
           required: true
           schema:
             type: string
             format: date
-            example: '2024-11-04T00:00:00.000Z'
+            example: 2024-11-04
       responses:
         '200':
           description: Coach events retrieved successfully
@@ -355,14 +310,7 @@ paths:
                 properties:
                   message:
                     type: string
-                  error:
-                    type: boolean
-                    example: false
-                  data:
-                    type: object
-                    items:
-                      type: string
-                    description: Coaching Session Booked Successfully!
+                    example: Event created successfully
         '406':
           description: Credit Consumption of the user has exceeded beyond specified limit
           content:
@@ -452,13 +400,54 @@ paths:
                     type: string
                   error:
                     type: boolean
-                    example: false
                   data:
                     type: object
-                    items:
-                      type: string
-                    description: Coaching Session reschedulled Successfully!
         '400':
           description: Invalid request parameters
         '500':
           description: Failed to reschedule
+  /copilot/coach/{coach_name}:
+    get:
+      operationId: getCoachDetails
+      summary: Get details of a coach by ID
+      description: >-
+        Returns coach details including first name, last name, email, phone
+        number, image URL, and timezone
+      parameters:
+        - name: coach_name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: A single coach
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Status message
+                  error:
+                    type: boolean
+                    description: Error flag
+                  data:
+                    type: object
+                    properties:
+                      first_name:
+                        type: string
+                      last_name:
+                        type: string
+                      email:
+                        type: string
+                      phone_number:
+                        type: string
+                      image_url:
+                        type: string
+                        format: uri
+                      timezone:
+                        type: string
+        "404":
+          description: Coach not found
