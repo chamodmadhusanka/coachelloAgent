@@ -445,13 +445,14 @@
                             {
                                 "$when" : "${error!=false}",
                                 "type": "TextBlock",
-                                "size": "Small",
+                                "size": "Medium",
                                 "weight": "Bolder",
-                                "text": "❌ Unable to Book Session!"
+                                "text": "❌ Unable to book the session!"
                             },
                             {
                                 "$when" : "${error!=false}",
                                 "type": "TextBlock",
+                                "size": "Small",
                                 "text": "${message}",
                                 "wrap": true
                             },
