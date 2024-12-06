@@ -6,22 +6,26 @@
     "instructions": "$[file('instruction.txt')]",
     "conversation_starters": [
         {
-            "title": "Get Coach details",
-            "text": "Get Coach details for coach Marie Aragon"
-        },
-        {
-            "title": "Book a new coaching session with",
-            "text": "I need book a new coaching session with coach Marie Aragon"
-        },
-        {
             "title": "Book a new coaching session on",
-            "text": "I need to book a new coaching session on "
+            "text": "I need to book a new coaching session with my coach on"
+        },
+        {
+            "title": "Start a quick AI coaching session",
+            "text": "Start the AI Flash coaching session."
+        },
+        {
+            "title": "Role play a scenario.",
+            "text": "Start the AI RolePlay session."
+        },
+        {
+            "title": "Get upcoming meeting details.",
+            "text": "When is my upcoming meeting?"
         }
     ],
     "actions": [
         {
             "id": "action_1",
-            "file": "ai-plugin_1.json"
+            "file": "ai-plugin_4.json"
         }
     ]
 }
