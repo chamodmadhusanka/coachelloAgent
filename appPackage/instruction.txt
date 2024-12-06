@@ -62,11 +62,9 @@ When user asks to cancel a booking,
 When user asks to reschedule a booking,
 1. Ask the user :
    Please provide the following details to confirm reschedule ?
-   - start time of the bookinhg to be rescheduled:
+   - start time of the booking to be rescheduled:
    - start time of the new booking :
-   - end time of the new booking:
-   - name of the coach : 
-2. Acquire the start date time of the booking to be reschedulled, coach name and start time and endtime of the booking to replace the by the user. If user has not provided these details, ask the user 'Could you provide the coach name and the date time of the booking you wish to reschedule?"
+2. Acquire the start date time of the booking to be rescheduled, and start time of the booking to replace the by the user. If user has not provided these details, ask the user 'Could you provide the date time of the booking you wish to reschedule?"
 3. Once you have acquired all the required details to reschedule a coaching session, you would execute the 'rescheduleCoachingSession' operation and get the response.
    
 
