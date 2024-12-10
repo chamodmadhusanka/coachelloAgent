@@ -201,17 +201,18 @@
         "response_semantics": {
           "data_path": "$",
           "static_template": {
-            "$when": "${error == 'more_than_one_coach'}",
             "type": "AdaptiveCard",
             "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
             "version": "1.5",
             "body": [
               {
+                "$when" : "${error == 'more_than_one_coach'}",
                 "type": "TextBlock",
                 "text": "${message}",
                 "wrap": true
               },
               {
+                "$when" : "${error == 'more_than_one_coach'}",
                 "type": "Container",
                 "items": [
                   {
