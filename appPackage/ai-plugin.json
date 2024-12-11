@@ -206,6 +206,12 @@
             "version": "1.5",
             "body": [
               {
+                "$when" : "${error == false}",
+                "type": "TextBlock",
+                "text": "⏰ Please note that coaches are available exclusively between 7:00 AM and 9:00 PM. Kindly ensure to select a time slot within these hours.",
+                "wrap": true
+              },
+              {
                 "$when" : "${error == 'more_than_one_coach'}",
                 "type": "TextBlock",
                 "text": "${message}",
@@ -350,12 +356,12 @@
                     "items": [
                       {
                         "type": "TextBlock",
-                        "text": "**Years of Coaching:** ${data.years_coaching}",
+                        "text": "**Year of Coaching Start:** ${data.years_coaching}",
                         "wrap": true
                       },
                       {
                         "type": "TextBlock",
-                        "text": "**Years of Experience:** ${data.years_experience}",
+                        "text": "**Years of Corporate Experience:** ${data.years_experience}",
                         "wrap": true
                       },
                       {
