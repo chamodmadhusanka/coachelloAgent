@@ -7,25 +7,21 @@
     "conversation_starters": [
         {
             "title": "Book a new coaching session on",
-            "text": "I need to book a new coaching session with my coach on"
+            "text": "I need to book a new coaching session with my coach on "
         },
         {
             "title": "Start a quick AI coaching session",
-            "text": "Start the AI Flash coaching session."
+            "text": "How can I overcome challenges related to "
         },
         {
             "title": "Role play a scenario.",
-            "text": "Start the AI RolePlay session."
-        },
-        {
-            "title": "Get upcoming meeting details.",
-            "text": "When is my upcoming meeting?"
+            "text": "Can we do a role play session where "
         }
     ],
     "actions": [
         {
             "id": "action_1",
-            "file": "ai-plugin_4.json"
+            "file": "ai-plugin.json"
         }
     ]
 }

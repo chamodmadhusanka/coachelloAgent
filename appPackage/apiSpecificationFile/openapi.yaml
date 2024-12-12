@@ -23,9 +23,9 @@ paths:
           schema:
             type: string
             format: date-time
-            example: '2024-11-04T10:00:00.000Z'
+            example: "2024-11-04T10:00:00.000Z"
       responses:
-        '200':
+        "200":
           description: Event cancelled successfully
           content:
             application/json:
@@ -38,13 +38,14 @@ paths:
                     type: boolean
                   data:
                     type: object
-        '400':
+        "400":
           description: Invalid request parameters
-        '500':
+        "500":
           description: Failed to cancel
   /copilot/coach/{coach_name}:
     get:
       operationId: getCoachDetails
+      x-openai-isConsequential: false
       summary: Get details of a coach by ID
       description: >-
         Returns coach details including first name, last name, email, phone
@@ -56,7 +57,7 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: A single coach
           content:
             application/json:
@@ -85,7 +86,7 @@ paths:
                         format: uri
                       timezone:
                         type: string
-        '404':
+        "404":
           description: Coach not found
   /copilot/coach/events:
     get:
@@ -104,16 +105,16 @@ paths:
           schema:
             type: string
             format: date
-            example: '2024-11-04T00:00:00.000Z'
+            example: "2024-11-04T00:00:00.000Z"
         - name: end_date
           in: query
           required: true
           schema:
             type: string
             format: date
-            example: '2024-11-04T00:00:00.000Z'
+            example: "2024-11-04T00:00:00.000Z"
       responses:
-        '200':
+        "200":
           description: Coach events retrieved successfully
           content:
             application/json:
@@ -136,9 +137,9 @@ paths:
                             description: Time range of the event
                       coach_time_zone:
                         type: string
-        '400':
+        "400":
           description: Invalid request parameters
-        '500':
+        "500":
           description: Failed to retrieve events
   /copilot/previous_coaches:
     get:
@@ -146,7 +147,7 @@ paths:
       summary: Retrieve a list of previous coaches for a client
       description: Returns a list of coaches that a specific client has previously booked.
       responses:
-        '200':
+        "200":
           description: Successfully retrieved the list of previous coaches
           content:
             application/json:
@@ -163,11 +164,11 @@ paths:
                     items:
                       type: string
                     description: A list of coach names
-        '400':
+        "400":
           description: Bad request, e.g., malformed email format
-        '404':
+        "404":
           description: Client not found
-        '500':
+        "500":
           description: Internal server error
   /copilot/testing-system:
     get:
@@ -175,7 +176,7 @@ paths:
       summary: Get test system response
       description: Get test system response
       responses:
-        '200':
+        "200":
           description: Test system response render successfully
           content:
             application/json:
@@ -189,19 +190,20 @@ paths:
                       properties:
                         message:
                           type: string
-        '400':
+        "400":
           description: Invalid request parameters
-        '500':
+        "500":
           description: Failed to retrieve events
   /copilot/upcoming-meeting:
     get:
       operationId: getUpcomingMeeting
+      x-openai-isConsequential: false
       summary: Get the upcoming meeting for a client
       description: >-
         Returns the details of the upcoming meeting scheduled for a client based
         on their time zone
       responses:
-        '200':
+        "200":
           description: Upcoming meeting details retrieved successfully
           content:
             application/json:
@@ -218,9 +220,9 @@ paths:
                         type: string
                       description:
                         type: string
-        '400':
+        "400":
           description: Invalid client ID or time zone
-        '500':
+        "500":
           description: Server error in fetching meeting details
   /repairs:
     get:
@@ -235,7 +237,7 @@ paths:
             type: string
           required: false
       responses:
-        '200':
+        "200":
           description: A list of repairs
           content:
             application/json:
@@ -274,6 +276,7 @@ paths:
   /copilot/ai/chat/test:
     post:
       operationId: chatWithAICoach
+      x-openai-isConsequential: false
       summary: chat with AI Coach and obtain a response
       description: Returns the response of an AI Coach for a user prompt
       requestBody:
@@ -288,10 +291,13 @@ paths:
                   type: string
                   description: The user's prompt to which AI Coach should respond.
                   example: How can I improve my leadership skills?
+                model:
+                  type: string
+                  description: This determines the model to use. Use 'practice' for AI RolePlay Coach conversations or use 'flash' for AI flash Coach conversations.
               required:
                 - prompt
       responses:
-        '200':
+        "200":
           description: Event rescheduleled successfully
           content:
             application/json:
@@ -301,9 +307,9 @@ paths:
                   reply:
                     type: string
                     description: The response of the AI Coach to the user's prompt.
-        '400':
+        "400":
           description: Invalid request parameters
-        '500':
+        "500":
           description: Failed to reschedule
   /copilot/calendar/event:
     post:
@@ -332,21 +338,15 @@ paths:
                   type: string
                   format: date-time
                   description: Start time of the event
-                  example: '2024-11-04T10:00:00.000Z'
-                end_time:
-                  type: string
-                  format: date-time
-                  description: End time of the event
-                  example: '2024-11-04T11:00:00.000Z'
+                  example: "2024-11-04T10:00:00.000Z"
                 user_comment:
                   type: string
                   description: User comments associated with the event
               required:
                 - coach_name
-                - event
-                - user_comment
+                - start_time
       responses:
-        '200':
+        "200":
           description: Event created successfully
           content:
             application/json:
@@ -363,7 +363,7 @@ paths:
                     items:
                       type: string
                     description: Coaching Session Booked Successfully!
-        '406':
+        "406":
           description: Credit Consumption of the user has exceeded beyond specified limit
           content:
             application/json:
@@ -372,7 +372,7 @@ paths:
                 properties:
                   message:
                     type: string
-        '407':
+        "407":
           description: Internal server error
           content:
             application/json:
@@ -385,7 +385,7 @@ paths:
                   error:
                     type: boolean
                     example: true
-        '422':
+        "422":
           description: Unprocessable entity
           content:
             application/json:
@@ -419,29 +419,20 @@ paths:
                   type: string
                   format: date-time
                   description: Start time of the event to be rescheduled
-                  example: '2024-11-04T10:00:00.000Z'
-                coach_name:
-                  type: string
-                  description: The name of the coach
+                  example: "2024-11-04T10:00:00.000Z"
                 start_time:
                   type: string
                   format: date-time
                   description: Start time of the event created
-                  example: '2024-11-04T10:00:00.000Z'
-                end_time:
-                  type: string
-                  format: date-time
-                  description: End time of the event created
-                  example: '2024-11-04T11:00:00.000Z'
+                  example: "2024-11-04T10:00:00.000Z"
                 user_comment:
                   type: string
                   description: User comments associated with the event
               required:
-                - coach_name
-                - event
-                - user_comment
+                - previous_start_time
+                - start_time
       responses:
-        '200':
+        "200":
           description: Event rescheduleled successfully
           content:
             application/json:
@@ -458,7 +449,7 @@ paths:
                     items:
                       type: string
                     description: Coaching Session reschedulled Successfully!
-        '400':
+        "400":
           description: Invalid request parameters
-        '500':
+        "500":
           description: Failed to reschedule
