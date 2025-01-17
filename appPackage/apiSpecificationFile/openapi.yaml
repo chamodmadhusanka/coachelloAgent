@@ -170,30 +170,6 @@ paths:
           description: Client not found
         "500":
           description: Internal server error
-  /copilot/testing-system:
-    get:
-      operationId: testSystem
-      summary: Get test system response
-      description: Get test system response
-      responses:
-        "200":
-          description: Test system response render successfully
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  results:
-                    type: string
-                    items:
-                      type: object
-                      properties:
-                        message:
-                          type: string
-        "400":
-          description: Invalid request parameters
-        "500":
-          description: Failed to retrieve events
   /copilot/upcoming-meeting:
     get:
       operationId: getUpcomingMeeting

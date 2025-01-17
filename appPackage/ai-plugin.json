@@ -392,30 +392,6 @@
       }
     },
     {
-      "name": "testSystem",
-      "description": "Get test system response",
-      "capabilities": {
-        "response_semantics": {
-          "data_path": "$",
-          "properties": {
-            "title": "$.results"
-          },
-          "static_template": {
-            "type": "AdaptiveCard",
-            "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-            "version": "1.5",
-            "body": [
-              {
-                "type": "TextBlock",
-                "text": "results: ${if(results, results, 'N/A')}",
-                "wrap": true
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
       "name": "getUpcomingMeeting",
       "description": "Returns the details of the upcoming meeting scheduled for a client based on their time zone",
       "capabilities": {
@@ -779,7 +755,6 @@
         "getCoachDetails",
         "getCoachEvents",
         "getPreviousCoaches",
-        "testSystem",
         "getUpcomingMeeting",
         "listRepairs",
         "chatWithAICoach",
