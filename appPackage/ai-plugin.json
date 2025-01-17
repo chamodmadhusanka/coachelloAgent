@@ -9,11 +9,6 @@
       "name": "cancelCoachingSession",
       "description": "Returns the outcome of the cancellation process whether success or failure.",
       "capabilities": {
-        "confirmation": {
-          "type": "None",
-          "title": "Cancel a Coaching Session",
-          "body": "Do you want to proceed with the cancellation of the booked session?"
-        },
         "response_semantics": {
           "data_path": "$",
           "properties": {
@@ -527,11 +522,6 @@
       "name": "bookCoachingSession",
       "description": "This endpoint allows you to book a new coaching session with a coach.This endpoint would return whet",
       "capabilities": {
-        "confirmation": {
-          "type": "None",
-          "title": "Book a Coaching Session",
-          "body": "Do you want to proceed with booking a coaching session?"
-        },
         "response_semantics": {
           "data_path": "$",
           "static_template": {
@@ -669,11 +659,6 @@
       "name": "rescheduleCoachingSession",
       "description": "Returns the outcome of the reschedule process whether success or failure.",
       "capabilities": {
-        "confirmation": {
-          "type": "None",
-          "title": "Reschedule a Coaching Session",
-          "body": "Do you want to proceed to reschedule the coaching session?"
-        },
         "response_semantics": {
           "data_path": "$",
           "static_template": {
