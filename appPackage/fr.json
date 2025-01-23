@@ -1,5 +1,5 @@
 {
-    "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.5/MicrosoftTeams.Localization.schema.json",
+    "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.19/MicrosoftTeams.Localization.schema.json",
     "name.short": "Coachello Copilot",
     "name.full": "Coachello AI Copilot",
     "description.short": "Le copilote de Coachello est votre assistant de développement professionnel.",
