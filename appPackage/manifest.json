@@ -1,6 +1,6 @@
 {
     "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.19/MicrosoftTeams.schema.json",
-    "version": "2.0.2",
+    "version": "2.0.3",
     "manifestVersion": "1.19",
     "id": "28321035-1103-49e7-8c8b-100802ab9b41",
     "localizationInfo": {
@@ -35,7 +35,10 @@
       "color": "color.png"
     },
     "accentColor": "#FFFFFF",
-    "validDomains": ["*.coachello.io"],
+    "validDomains": [],
+    "webApplicationInfo": {
+      "id": "9d937a45-0740-48bd-bffd-93b14c61936d"
+    },
     "copilotAgents": {
       "declarativeAgents": [
         {

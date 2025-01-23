@@ -9,6 +9,11 @@
       "name": "cancelCoachingSession",
       "description": "Returns the outcome of the cancellation process whether success or failure.",
       "capabilities": {
+        "confirmation": {
+          "type": "AdaptiveCard",
+          "title": "Cancel a Coaching Session",
+          "body": "Do you want to proceed with the cancellation of the booked session?"
+        },
         "response_semantics": {
           "data_path": "$",
           "properties": {
@@ -522,6 +527,11 @@
       "name": "bookCoachingSession",
       "description": "Returns the outcome of booking a coaching session with a coach, whether success or failure",
       "capabilities": {
+        "confirmation": {
+          "type": "AdaptiveCard",
+          "title": "Book a Coaching Session",
+          "body": "Do you want to proceed with booking a coaching session?"
+        },
         "response_semantics": {
           "data_path": "$",
           "static_template": {
@@ -659,6 +669,11 @@
       "name": "rescheduleCoachingSession",
       "description": "Returns the outcome of the reschedule process whether success or failure.",
       "capabilities": {
+        "confirmation": {
+          "type": "AdaptiveCard",
+          "title": "Reschedule a Coaching Session",
+          "body": "Do you want to proceed to reschedule the coaching session?"
+        },
         "response_semantics": {
           "data_path": "$",
           "static_template": {
