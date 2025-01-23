@@ -11,8 +11,8 @@
       "capabilities": {
         "confirmation": {
           "type": "AdaptiveCard",
-          "title": "Cancel a Coaching Session",
-          "body": "Do you want to proceed with the cancellation of the booked session?"
+          "title": "Call off a Coaching Session",
+          "body": "Do you want to proceed with calling off the booked session?"
         },
         "response_semantics": {
           "data_path": "$",
