@@ -1,8 +1,21 @@
 {
-    "$schema": "https://developer.microsoft.com/json-schemas/teams/vDevPreview/MicrosoftTeams.schema.json",
+    "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.5/MicrosoftTeams.schema.json",
     "version": "2.0.0",
-    "manifestVersion": "devPreview",
+    "manifestVersion": "1.5",
     "id": "28321035-1103-49e7-8c8b-100802ab9b41",
+    "localizationInfo": {
+    "defaultLanguageTag": "en",
+      "additionalLanguages": [
+        {
+          "languageTag": "fr",
+          "file": "fr.json"
+        },
+        {
+          "languageTag": "de",
+          "file": "de.json"
+        }
+      ]
+    },
     "name": {
       "short": "Coachello Copilot",
       "full": "Coachello AI Copilot"
