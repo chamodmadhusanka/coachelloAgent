@@ -269,7 +269,7 @@
     },
     {
       "name": "getPreviousCoaches",
-      "description": "Returns a list of coaches that a specific client has previously booked.",
+      "description": "Returns most recent coach a specific client has previously booked.",
       "capabilities": {
         "response_semantics": {
           "data_path": "$",
@@ -520,7 +520,7 @@
     },
     {
       "name": "bookCoachingSession",
-      "description": "This endpoint allows you to book a new coaching session with a coach.This endpoint would return whet",
+      "description": "Returns the outcome of booking a coaching session with a coach, whether success or failure",
       "capabilities": {
         "response_semantics": {
           "data_path": "$",
@@ -751,19 +751,19 @@
   "capabilities": {
     "conversation_starters": [
       {
-        "text": "cancel an booked event at a specific starting time"
+        "text": "Cancel a booked event at a specific starting time"
       },
       {
-        "text": "Get details of a coach by ID"
+        "text": "Get details of a coach by name"
       },
       {
         "text": "Get events for a coach by date range"
       },
       {
-        "text": "Retrieve a list of previous coaches for a client"
+        "text": "Retrieve the previously booked coach for a client"
       },
       {
-        "text": "Get test system response"
+        "text": "Get the upcoming meeting for a client"
       }
     ]
   }

@@ -12,7 +12,7 @@ paths:
   /copilot/cancel/booking:
     delete:
       operationId: cancelCoachingSession
-      summary: cancel an booked event at a specific starting time
+      summary: Cancel a booked event at a specific starting time
       description: >-
         Returns the outcome of the cancellation process whether success or
         failure.
@@ -46,7 +46,7 @@ paths:
     get:
       operationId: getCoachDetails
       x-openai-isConsequential: false
-      summary: Get details of a coach by ID
+      summary: Get details of a coach by name
       description: >-
         Returns coach details including first name, last name, email, phone
         number, image URL, and timezone
@@ -144,8 +144,8 @@ paths:
   /copilot/previous_coaches:
     get:
       operationId: getPreviousCoaches
-      summary: Retrieve a list of previous coaches for a client
-      description: Returns a list of coaches that a specific client has previously booked.
+      summary: Retrieve the previously booked coach for a client
+      description: Returns most recent coach a specific client has previously booked.
       responses:
         "200":
           description: Successfully retrieved the list of previous coaches
@@ -294,9 +294,7 @@ paths:
         Books a coaching session with a coach and return information of whether
         the booking process is successful or not.
       description: >-
-        This endpoint allows you to book a new coaching session with a
-        coach.This endpoint would return whether the booking is successful or
-        failed.
+        Returns the outcome of booking a coaching session with a coach, whether success or failure
       requestBody:
         description: >-
           JSON payload containing event details and user information. Missing
@@ -377,7 +375,7 @@ paths:
   /copilot/reschedule/event:
     post:
       operationId: rescheduleCoachingSession
-      summary: reschedule an booked event at a specific starting time
+      summary: reschedule a booked event at a specific starting time
       description: >-
         Returns the outcome of the reschedule process whether success or
         failure.
