@@ -91,6 +91,7 @@ paths:
   /copilot/coach/events:
     get:
       operationId: getCoachEvents
+      x-openai-isConsequential: false
       summary: Get events for a coach by date range
       description: Returns events for a coach from today and before a certain end date
       parameters:
@@ -144,6 +145,7 @@ paths:
   /copilot/previous_coaches:
     get:
       operationId: getPreviousCoaches
+      x-openai-isConsequential: false
       summary: Retrieve the previously booked coach for a client
       description: Returns most recent coach a specific client has previously booked.
       responses:
@@ -200,55 +202,6 @@ paths:
           description: Invalid client ID or time zone
         "500":
           description: Server error in fetching meeting details
-  /repairs:
-    get:
-      operationId: listRepairs
-      summary: List all repairs
-      description: Returns a list of repairs with their details and images
-      parameters:
-        - name: assignedTo
-          in: query
-          description: Filter repairs by who they're assigned to
-          schema:
-            type: string
-          required: false
-      responses:
-        "200":
-          description: A list of repairs
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  results:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        id:
-                          type: string
-                          description: The unique identifier of the repair
-                        title:
-                          type: string
-                          description: The short summary of the repair
-                        description:
-                          type: string
-                          description: The detailed description of the repair
-                        assignedTo:
-                          type: string
-                          description: The user responsible for the repair
-                        date:
-                          type: string
-                          format: date-time
-                          description: >-
-                            The date and time when the repair is scheduled or
-                            completed
-                        image:
-                          type: string
-                          format: uri
-                          description: >-
-                            The URL of the image of the item to be repaired or
-                            the repair process
   /copilot/ai/chat/test:
     post:
       operationId: chatWithAICoach

@@ -26,6 +26,11 @@
       "name": "getCoachDetails",
       "description": "Returns coach details including first name, last name, email, phone number, image URL, and timezone",
       "capabilities": {
+        "confirmation": {
+          "type": "AdaptiveCard",
+          "title": "Coach Details",
+          "body": "Do you want to get coach details?"
+        },
         "response_semantics": {
           "data_path": "$",
           "properties": {
@@ -203,6 +208,11 @@
       "name": "getCoachEvents",
       "description": "Returns events for a coach from today and before a certain end date",
       "capabilities": {
+        "confirmation": {
+          "type": "AdaptiveCard",
+          "title": "Coach Availability for Selected Date",
+          "body": "Do you want to get the coach's availability for the provided date?"
+        },
         "response_semantics": {
           "data_path": "$",
           "static_template": {
@@ -276,6 +286,11 @@
       "name": "getPreviousCoaches",
       "description": "Returns most recent coach a specific client has previously booked.",
       "capabilities": {
+        "confirmation": {
+          "type": "AdaptiveCard",
+          "title": "Previous Coach Details",
+          "body": "Do you want to get the details of the previously booked coach"
+        },
         "response_semantics": {
           "data_path": "$",
           "static_template": {
@@ -395,6 +410,11 @@
       "name": "getUpcomingMeeting",
       "description": "Returns the details of the upcoming meeting scheduled for a client based on their time zone",
       "capabilities": {
+        "confirmation": {
+          "type": "AdaptiveCard",
+          "title": "Upcoming Meeting Details",
+          "body": "Do you want to get the details of the upcoming meeting?"
+        },
         "response_semantics": {
           "data_path": "$",
           "properties": {
@@ -464,60 +484,14 @@
       }
     },
     {
-      "name": "listRepairs",
-      "description": "Returns a list of repairs with their details and images",
-      "capabilities": {
-        "response_semantics": {
-          "data_path": "$.results",
-          "properties": {
-            "title": "$.title",
-            "subtitle": "$.id"
-          },
-          "static_template": {
-            "type": "AdaptiveCard",
-            "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-            "version": "1.5",
-            "body": [
-              {
-                "type": "Container",
-                "$data": "${$root}",
-                "items": [
-                  {
-                    "type": "TextBlock",
-                    "text": "id: ${if(id, id, 'N/A')}",
-                    "wrap": true
-                  },
-                  {
-                    "type": "TextBlock",
-                    "text": "title: ${if(title, title, 'N/A')}",
-                    "wrap": true
-                  },
-                  {
-                    "type": "TextBlock",
-                    "text": "description: ${if(description, description, 'N/A')}",
-                    "wrap": true
-                  },
-                  {
-                    "type": "TextBlock",
-                    "text": "assignedTo: ${if(assignedTo, assignedTo, 'N/A')}",
-                    "wrap": true
-                  },
-                  {
-                    "type": "TextBlock",
-                    "text": "date: ${if(date, date, 'N/A')}",
-                    "wrap": true
-                  }
-                ]
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
       "name": "chatWithAICoach",
       "description": "Returns the response of either AI Flash Coach or AI RolePlay coach for a user prompt",
       "capabilities": {
+        "confirmation": {
+          "type": "AdaptiveCard",
+          "title": "Coachello AI Coach",
+          "body": "Do you want to talk with Coachello AI Coach?"
+        },
         "response_semantics": {
           "data_path": "$"
         }
@@ -756,7 +730,6 @@
         "getCoachEvents",
         "getPreviousCoaches",
         "getUpcomingMeeting",
-        "listRepairs",
         "chatWithAICoach",
         "bookCoachingSession",
         "rescheduleCoachingSession"
