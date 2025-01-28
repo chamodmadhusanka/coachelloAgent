@@ -1,6 +1,6 @@
 {
     "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.19/MicrosoftTeams.schema.json",
-    "version": "2.0.9",
+    "version": "3.0.0",
     "manifestVersion": "1.19",
     "id": "28321035-1103-49e7-8c8b-100802ab9b41",
     "localizationInfo": {
@@ -17,8 +17,8 @@
       ]
     },
     "name": {
-      "short": "Coachello Copilot",
-      "full": "Coachello AI Copilot"
+      "short": "Coachello Copilot Prod",
+      "full": "Coachello AI Copilot Prod"
     },
     "developer": {
       "name": "Coachello Dev Team",
@@ -36,9 +36,6 @@
     },
     "accentColor": "#FFFFFF",
     "validDomains": [],
-    "webApplicationInfo": {
-      "id": "9d937a45-0740-48bd-bffd-93b14c61936d"
-    },
     "copilotAgents": {
       "declarativeAgents": [
         {
