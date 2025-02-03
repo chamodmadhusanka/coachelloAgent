@@ -12,7 +12,7 @@ paths:
   /copilot/cancel/booking:
     delete:
       operationId: cancelCoachingSession
-      summary: cancel an booked event at a specific starting time
+      summary: Cancel a booked event at a specific starting time
       description: >-
         Returns the outcome of the cancellation process whether success or
         failure.
@@ -46,7 +46,7 @@ paths:
     get:
       operationId: getCoachDetails
       x-openai-isConsequential: false
-      summary: Get details of a coach by ID
+      summary: Get details of a coach by name
       description: >-
         Returns coach details including first name, last name, email, phone
         number, image URL, and timezone
@@ -91,6 +91,7 @@ paths:
   /copilot/coach/events:
     get:
       operationId: getCoachEvents
+      x-openai-isConsequential: false
       summary: Get events for a coach by date range
       description: Returns events for a coach from today and before a certain end date
       parameters:
@@ -144,8 +145,9 @@ paths:
   /copilot/previous_coaches:
     get:
       operationId: getPreviousCoaches
-      summary: Retrieve a list of previous coaches for a client
-      description: Returns a list of coaches that a specific client has previously booked.
+      x-openai-isConsequential: false
+      summary: Retrieve the previously booked coach for a client
+      description: Returns most recent coach a specific client has previously booked.
       responses:
         "200":
           description: Successfully retrieved the list of previous coaches
@@ -170,30 +172,6 @@ paths:
           description: Client not found
         "500":
           description: Internal server error
-  /copilot/testing-system:
-    get:
-      operationId: testSystem
-      summary: Get test system response
-      description: Get test system response
-      responses:
-        "200":
-          description: Test system response render successfully
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  results:
-                    type: string
-                    items:
-                      type: object
-                      properties:
-                        message:
-                          type: string
-        "400":
-          description: Invalid request parameters
-        "500":
-          description: Failed to retrieve events
   /copilot/upcoming-meeting:
     get:
       operationId: getUpcomingMeeting
@@ -224,55 +202,6 @@ paths:
           description: Invalid client ID or time zone
         "500":
           description: Server error in fetching meeting details
-  /repairs:
-    get:
-      operationId: listRepairs
-      summary: List all repairs
-      description: Returns a list of repairs with their details and images
-      parameters:
-        - name: assignedTo
-          in: query
-          description: Filter repairs by who they're assigned to
-          schema:
-            type: string
-          required: false
-      responses:
-        "200":
-          description: A list of repairs
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  results:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        id:
-                          type: string
-                          description: The unique identifier of the repair
-                        title:
-                          type: string
-                          description: The short summary of the repair
-                        description:
-                          type: string
-                          description: The detailed description of the repair
-                        assignedTo:
-                          type: string
-                          description: The user responsible for the repair
-                        date:
-                          type: string
-                          format: date-time
-                          description: >-
-                            The date and time when the repair is scheduled or
-                            completed
-                        image:
-                          type: string
-                          format: uri
-                          description: >-
-                            The URL of the image of the item to be repaired or
-                            the repair process
   /copilot/ai/chat/test:
     post:
       operationId: chatWithAICoach
@@ -318,9 +247,7 @@ paths:
         Books a coaching session with a coach and return information of whether
         the booking process is successful or not.
       description: >-
-        This endpoint allows you to book a new coaching session with a
-        coach.This endpoint would return whether the booking is successful or
-        failed.
+        Returns the outcome of booking a coaching session with a coach, whether success or failure
       requestBody:
         description: >-
           JSON payload containing event details and user information. Missing
@@ -401,7 +328,7 @@ paths:
   /copilot/reschedule/event:
     post:
       operationId: rescheduleCoachingSession
-      summary: reschedule an booked event at a specific starting time
+      summary: reschedule a booked event at a specific starting time
       description: >-
         Returns the outcome of the reschedule process whether success or
         failure.

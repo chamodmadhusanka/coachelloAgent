@@ -1,7 +1,7 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/copilot/plugin/v2.2/schema.json",
   "schema_version": "v2.2",
-  "name_for_human": "Coachello",
+  "name_for_human": "Coachello Copilot Prod",
   "description_for_human": "A simple service to manage coaches and their calendars, now with conversational event creation.",
   "namespace": "Coachello",
   "functions": [
@@ -9,6 +9,11 @@
       "name": "cancelCoachingSession",
       "description": "Returns the outcome of the cancellation process whether success or failure.",
       "capabilities": {
+        "confirmation": {
+          "type": "AdaptiveCard",
+          "title": "Call off a Coaching Session",
+          "body": "Do you want to proceed with calling off the booked session?"
+        },
         "response_semantics": {
           "data_path": "$",
           "properties": {
@@ -21,6 +26,11 @@
       "name": "getCoachDetails",
       "description": "Returns coach details including first name, last name, email, phone number, image URL, and timezone",
       "capabilities": {
+        "confirmation": {
+          "type": "AdaptiveCard",
+          "title": "Coach Details",
+          "body": "Do you want to get coach details?"
+        },
         "response_semantics": {
           "data_path": "$",
           "properties": {
@@ -198,6 +208,11 @@
       "name": "getCoachEvents",
       "description": "Returns events for a coach from today and before a certain end date",
       "capabilities": {
+        "confirmation": {
+          "type": "AdaptiveCard",
+          "title": "Coach Availability for Selected Date",
+          "body": "Do you want to get the coach's availability for the provided date?"
+        },
         "response_semantics": {
           "data_path": "$",
           "static_template": {
@@ -269,8 +284,13 @@
     },
     {
       "name": "getPreviousCoaches",
-      "description": "Returns a list of coaches that a specific client has previously booked.",
+      "description": "Returns most recent coach a specific client has previously booked.",
       "capabilities": {
+        "confirmation": {
+          "type": "AdaptiveCard",
+          "title": "Previous Coach Details",
+          "body": "Do you want to get the details of the previously booked coach"
+        },
         "response_semantics": {
           "data_path": "$",
           "static_template": {
@@ -387,33 +407,14 @@
       }
     },
     {
-      "name": "testSystem",
-      "description": "Get test system response",
-      "capabilities": {
-        "response_semantics": {
-          "data_path": "$",
-          "properties": {
-            "title": "$.results"
-          },
-          "static_template": {
-            "type": "AdaptiveCard",
-            "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-            "version": "1.5",
-            "body": [
-              {
-                "type": "TextBlock",
-                "text": "results: ${if(results, results, 'N/A')}",
-                "wrap": true
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
       "name": "getUpcomingMeeting",
       "description": "Returns the details of the upcoming meeting scheduled for a client based on their time zone",
       "capabilities": {
+        "confirmation": {
+          "type": "AdaptiveCard",
+          "title": "Upcoming Meeting Details",
+          "body": "Do you want to get the details of the upcoming meeting?"
+        },
         "response_semantics": {
           "data_path": "$",
           "properties": {
@@ -483,60 +484,14 @@
       }
     },
     {
-      "name": "listRepairs",
-      "description": "Returns a list of repairs with their details and images",
-      "capabilities": {
-        "response_semantics": {
-          "data_path": "$.results",
-          "properties": {
-            "title": "$.title",
-            "subtitle": "$.id"
-          },
-          "static_template": {
-            "type": "AdaptiveCard",
-            "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-            "version": "1.5",
-            "body": [
-              {
-                "type": "Container",
-                "$data": "${$root}",
-                "items": [
-                  {
-                    "type": "TextBlock",
-                    "text": "id: ${if(id, id, 'N/A')}",
-                    "wrap": true
-                  },
-                  {
-                    "type": "TextBlock",
-                    "text": "title: ${if(title, title, 'N/A')}",
-                    "wrap": true
-                  },
-                  {
-                    "type": "TextBlock",
-                    "text": "description: ${if(description, description, 'N/A')}",
-                    "wrap": true
-                  },
-                  {
-                    "type": "TextBlock",
-                    "text": "assignedTo: ${if(assignedTo, assignedTo, 'N/A')}",
-                    "wrap": true
-                  },
-                  {
-                    "type": "TextBlock",
-                    "text": "date: ${if(date, date, 'N/A')}",
-                    "wrap": true
-                  }
-                ]
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
       "name": "chatWithAICoach",
       "description": "Returns the response of either AI Flash Coach or AI RolePlay coach for a user prompt",
       "capabilities": {
+        "confirmation": {
+          "type": "AdaptiveCard",
+          "title": "Coachello AI Coach",
+          "body": "Do you want to talk with Coachello AI Coach?"
+        },
         "response_semantics": {
           "data_path": "$"
         }
@@ -544,8 +499,13 @@
     },
     {
       "name": "bookCoachingSession",
-      "description": "This endpoint allows you to book a new coaching session with a coach.This endpoint would return whet",
+      "description": "Returns the outcome of booking a coaching session with a coach, whether success or failure",
       "capabilities": {
+        "confirmation": {
+          "type": "AdaptiveCard",
+          "title": "Book a Coaching Session",
+          "body": "Do you want to proceed with booking a coaching session?"
+        },
         "response_semantics": {
           "data_path": "$",
           "static_template": {
@@ -683,6 +643,11 @@
       "name": "rescheduleCoachingSession",
       "description": "Returns the outcome of the reschedule process whether success or failure.",
       "capabilities": {
+        "confirmation": {
+          "type": "AdaptiveCard",
+          "title": "Reschedule a Coaching Session",
+          "body": "Do you want to proceed to reschedule the coaching session?"
+        },
         "response_semantics": {
           "data_path": "$",
           "static_template": {
@@ -764,9 +729,7 @@
         "getCoachDetails",
         "getCoachEvents",
         "getPreviousCoaches",
-        "testSystem",
         "getUpcomingMeeting",
-        "listRepairs",
         "chatWithAICoach",
         "bookCoachingSession",
         "rescheduleCoachingSession"
@@ -776,19 +739,19 @@
   "capabilities": {
     "conversation_starters": [
       {
-        "text": "cancel an booked event at a specific starting time"
+        "text": "Cancel a booked event at a specific starting time"
       },
       {
-        "text": "Get details of a coach by ID"
+        "text": "Get details of a coach by name"
       },
       {
         "text": "Get events for a coach by date range"
       },
       {
-        "text": "Retrieve a list of previous coaches for a client"
+        "text": "Retrieve the previously booked coach for a client"
       },
       {
-        "text": "Get test system response"
+        "text": "Get the upcoming meeting for a client"
       }
     ]
   }

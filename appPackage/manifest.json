@@ -1,38 +1,47 @@
 {
     "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.19/MicrosoftTeams.schema.json",
+    "version": "3.0.0",
     "manifestVersion": "1.19",
-    "version": "1.0.4",
-    "id": "${{TEAMS_APP_ID}}",
-    "developer": {
-        "name": "Teams App, Inc.",
-        "websiteUrl": "https://www.example.com",
-        "privacyUrl": "https://www.example.com/privacy",
-        "termsOfUseUrl": "https://www.example.com/termofuse"
-    },
-    "icons": {
-        "color": "color.png",
-        "outline": "outline.png"
+    "id": "28321035-1103-49e7-8c8b-100802ab9b41",
+    "localizationInfo": {
+    "defaultLanguageTag": "en",
+      "additionalLanguages": [
+        {
+          "languageTag": "fr",
+          "file": "fr.json"
+        },
+        {
+          "languageTag": "de",
+          "file": "de.json"
+        }
+      ]
     },
     "name": {
-        "short": "Coachello${{APP_NAME_SUFFIX}}",
-        "full": "Full name for Coachello"
+      "short": "Coachello Copilot Prod",
+      "full": "Coachello AI Copilot Prod"
+    },
+    "developer": {
+      "name": "Coachello Dev Team",
+      "websiteUrl": "https://coachello.ai",
+      "privacyUrl": "https://coachello.ai/privacy-policy/",
+      "termsOfUseUrl": "https://coachello.ai/terms-and-conditions/"
     },
     "description": {
-        "short": "Short description for Coachello",
-        "full": "Full description for Coachello"
+      "short": "Coachello’s Copilot is your professional development assistant.",
+      "full": "Coachello’s AI Copilot is a groundbreaking tool designed to revolutionize the coaching experience by combining advanced AI and human coaching capabilities.\n\nIt enables you to book coaching sessions, conduct AI coaching sessions and role play situations at work.\n\n\nWith AI Copilot, users can effortlessly book coaching sessions with world-class professionals or explore the power of AI-driven coaching sessions for personalized guidance and support. This innovative feature also allows you to role-play workplace scenarios, helping you prepare for challenging conversations, presentations, and decision-making situations. Whether you seek human connection or cutting-edge AI coaching support, Coachello’s AI Copilot provides a versatile and transformative coaching solution tailored to your needs. \n\nPlease note that clients will be granted permissions through their organization, and users must have an account with Coachello to access the platform. In order to use this app, please contact our support team at coach@coachello.io for more details.\n\n Coachello AI Copilot works with Microsoft 365 Copilot"
+    },
+    "icons": {
+      "outline": "outline.png",
+      "color": "color.png"
     },
     "accentColor": "#FFFFFF",
+    "validDomains": [],
     "copilotAgents": {
-        "declarativeAgents": [
-            {
-                "id": "declarativeAgent",
-                "file": "declarativeAgent.json"
-            }
-        ]
-    },
-    "permissions": [
-        "identity",
-        "messageTeamMembers"
-    ],
-    "validDomains": []
-}
+      "declarativeAgents": [
+        {
+          "file": "declarativeAgent.json",
+          "id": "declarativeAgent"
+        }
+      ]
+    }
+  }
