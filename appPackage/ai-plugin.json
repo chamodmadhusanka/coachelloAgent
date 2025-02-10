@@ -719,7 +719,7 @@
       "type": "OpenApi",
       "auth": {
         "type": "OAuthPluginVault",
-        "reference_id": "MWIzY2QzMDQtNWFkYy00ZTUxLTg2NDItZjRjNjg3NGQwZDZiIyNiMDg0NThjMy1hOTljLTQ3YmQtYWIyMi0yOGMxOTIyNzQ3NGY="
+        "reference_id": "MWIzY2QzMDQtNWFkYy00ZTUxLTg2NDItZjRjNjg3NGQwZDZiIyM0N2QxNTA2OS03ODY4LTQ2NTAtOTE1My1iYjhhODI1MzkwZjQ="
       },
       "spec": {
         "url": "apiSpecificationFile/openapi.yaml"
