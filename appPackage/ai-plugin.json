@@ -160,7 +160,7 @@
                         "wrap": true
                       }
                     ],
-                    "width": "auto"
+                    "width": "stretch"
                   }
                 ]
               },
