@@ -24,7 +24,7 @@
     },
     {
       "name": "getCoachDetails",
-      "description": "Returns coach details including first name, last name, email, phone number, image URL, and timezone",
+      "description": "Returns coach details including first name, last name, email, phone number, profile image, and timezone",
       "capabilities": {
         "confirmation": {
           "type": "AdaptiveCard",
