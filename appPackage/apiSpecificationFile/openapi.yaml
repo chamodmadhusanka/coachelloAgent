@@ -49,7 +49,7 @@ paths:
       summary: Get details of a coach by name
       description: >-
         Returns coach details including first name, last name, email, phone
-        number, image URL, and timezone
+        number, profile image, and timezone
       parameters:
         - name: coach_name
           in: path

@@ -24,7 +24,7 @@
     },
     {
       "name": "getCoachDetails",
-      "description": "Returns coach details including first name, last name, email, phone number, image URL, and timezone",
+      "description": "Returns coach details including first name, last name, email, phone number, profile image, and timezone",
       "capabilities": {
         "confirmation": {
           "type": "AdaptiveCard",
@@ -33,9 +33,6 @@
         },
         "response_semantics": {
           "data_path": "$",
-          "properties": {
-            "title": "$.message"
-          },
           "static_template": {
             "type": "AdaptiveCard",
             "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
@@ -74,14 +71,14 @@
                           {
                             "type": "TextBlock",
                             "weight": "Bolder",
-                            "text": "${first_name} ${last_name}",
+                            "text": "${first_name} ${if(last_name, last_name, '')}",
                             "wrap": true
                           },
                           {
                             "type": "TextBlock",
                             "spacing": "None",
                             "size": "Small",
-                            "text": "${timezone}",
+                            "text": "${if(timezone, timezone, '')}",
                             "isSubtle": true,
                             "wrap": true
                           }
@@ -160,7 +157,7 @@
                         "wrap": true
                       }
                     ],
-                    "width": "auto"
+                    "width": "stretch"
                   }
                 ]
               },
