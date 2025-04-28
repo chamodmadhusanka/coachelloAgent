@@ -5,712 +5,820 @@
   "description_for_human": "A simple service to manage coaches and their calendars, now with conversational event creation.",
   "namespace": "Coachello",
   "functions": [
-    {
-      "name": "cancelCoachingSession",
-      "description": "Returns the outcome of the cancellation process whether success or failure.",
-      "capabilities": {
-        "confirmation": {
-          "type": "AdaptiveCard",
-          "title": "Call off a Coaching Session",
-          "body": "Do you want to proceed with calling off the booked session?"
-        },
-        "response_semantics": {
-          "data_path": "$",
-          "properties": {
-            "title": "$.message"
-          }
-        }
-      }
-    },
-    {
-      "name": "getCoachDetails",
-      "description": "Returns coach details including first name, last name, email, phone number, profile image, and timezone",
-      "capabilities": {
-        "confirmation": {
-          "type": "AdaptiveCard",
-          "title": "Coach Details",
-          "body": "Do you want to get coach details?"
-        },
-        "response_semantics": {
-          "data_path": "$",
-          "static_template": {
+      {
+        "name": "cancelCoachingSession",
+        "description": "Returns the outcome of the cancellation process whether success or failure.",
+        "capabilities": {
+          "confirmation": {
             "type": "AdaptiveCard",
-            "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-            "version": "1.5",
-            "body": [
-              {
-                "$when": "${error == 'more_than_one_coach'}",
-                "type": "TextBlock",
-                "text": "${message}",
-                "wrap": true
-              },
-              {
-                "$when": "${error == 'more_than_one_coach'}",
-                "type": "Container",
-                "items": [
-                  {
-                    "type": "ColumnSet",
-                    "$data": "${data}",
-                    "columns": [
-                      {
-                        "type": "Column",
-                        "items": [
-                          {
-                            "type": "Image",
-                            "style": "Person",
-                            "url": "${image_url}",
-                            "altText": "${first_name}",
-                            "size": "Small"
-                          }
-                        ],
-                        "width": "auto"
-                      },
-                      {
-                        "type": "Column",
-                        "items": [
-                          {
-                            "type": "TextBlock",
-                            "weight": "Bolder",
-                            "text": "${first_name} ${if(last_name, last_name, '')}",
-                            "wrap": true
-                          },
-                          {
-                            "type": "TextBlock",
-                            "spacing": "None",
-                            "size": "Small",
-                            "text": "${if(timezone, timezone, '')}",
-                            "isSubtle": true,
-                            "wrap": true
-                          }
-                        ],
-                        "width": "stretch"
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "$when": "${error==false}",
-                "type": "ColumnSet",
-                "columns": [
-                  {
-                    "type": "Column",
-                    "items": [
-                      {
-                        "type": "Image",
-                        "style": "Person",
-                        "url": "${data.image_url}",
-                        "altText": "${data.first_name}",
-                        "size": "Small"
-                      }
-                    ],
-                    "width": "auto"
-                  },
-                  {
-                    "type": "Column",
-                    "items": [
-                      {
-                        "type": "TextBlock",
-                        "weight": "Bolder",
-                        "text": "${data.first_name} ${if(data.last_name, data.last_name, '')}",
-                        "wrap": true
-                      },
-                      {
-                        "type": "TextBlock",
-                        "spacing": "None",
-                        "text": "📍 ${data.city} (${data.timezone})",
-                        "isSubtle": true,
-                        "wrap": true
-                      }
-                    ],
-                    "width": "stretch"
-                  }
-                ]
-              },
-              {
-                "$when": "${error==false}",
-                "type": "ColumnSet",
-                "columns": [
-                  {
-                    "type": "Column",
-                    "items": [
-                      {
-                        "type": "TextBlock",
-                        "text": "🌐 ${data.languages}",
-                        "wrap": true
-                      }
-                    ],
-                    "width": "auto"
-                  }
-                ]
-              },
-              {
-                "$when": "${error==false}",
-                "type": "ColumnSet",
-                "columns": [
-                  {
-                    "type": "Column",
-                    "items": [
-                      {
-                        "type": "TextBlock",
-                        "text": "**Specializations:** ${data.specializations}",
-                        "wrap": true
-                      }
-                    ],
-                    "width": "stretch"
-                  }
-                ]
-              },
-              {
-                "$when": "${error==false}",
-                "type": "ColumnSet",
-                "columns": [
-                  {
-                    "type": "Column",
-                    "items": [
-                      {
-                        "type": "TextBlock",
-                        "text": "**Years of Coaching:** ${data.years_coaching}",
-                        "wrap": true
-                      },
-                      {
-                        "type": "TextBlock",
-                        "text": "**Years of Experience:** ${data.years_experience}",
-                        "wrap": true
-                      },
-                      {
-                        "type": "TextBlock",
-                        "text": "**Certified by:** ${data.certified_by}",
-                        "wrap": true
-                      }
-                    ],
-                    "width": "auto"
-                  }
-                ]
-              }
-            ],
-            "actions": [
-              {
-                "$when": "${error==false}",
-                "type": "Action.OpenUrl",
-                "title": "Website",
-                "url": "${data.website}"
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
-      "name": "getCoachEvents",
-      "description": "Returns events for a coach from today and before a certain end date",
-      "capabilities": {
-        "confirmation": {
-          "type": "AdaptiveCard",
-          "title": "Coach Availability for Selected Date",
-          "body": "Do you want to get the coach's availability for the provided date?"
-        },
-        "response_semantics": {
-          "data_path": "$",
-          "static_template": {
-            "type": "AdaptiveCard",
-            "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-            "version": "1.5",
-            "body": [
-              {
-                "$when" : "${error == false}",
-                "type": "TextBlock",
-                "text": "⏰ Please note that coaches are available exclusively between 7:00 AM and 9:00 PM. Kindly ensure to select a time slot within these hours.",
-                "wrap": true
-              },
-              {
-                "$when" : "${error == 'more_than_one_coach'}",
-                "type": "TextBlock",
-                "text": "${message}",
-                "wrap": true
-              },
-              {
-                "$when" : "${error == 'more_than_one_coach'}",
-                "type": "Container",
-                "items": [
-                  {
-                    "type": "ColumnSet",
-                    "$data": "${data}",
-                    "columns": [
-                      {
-                        "type": "Column",
-                        "items": [
-                          {
-                            "type": "Image",
-                            "style": "Person",
-                            "url": "${image_url}",
-                            "altText": "${first_name}",
-                            "size": "Small"
-                          }
-                        ],
-                        "width": "auto"
-                      },
-                      {
-                        "type": "Column",
-                        "items": [
-                          {
-                            "type": "TextBlock",
-                            "weight": "Bolder",
-                            "text": "${first_name} ${last_name}",
-                            "wrap": true
-                          },
-                          {
-                            "type": "TextBlock",
-                            "spacing": "None",
-                            "size": "Small",
-                            "text": "${timezone}",
-                            "isSubtle": true,
-                            "wrap": true
-                          }
-                        ],
-                        "width": "stretch"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
-      "name": "getPreviousCoaches",
-      "description": "Returns most recent coach a specific client has previously booked.",
-      "capabilities": {
-        "confirmation": {
-          "type": "AdaptiveCard",
-          "title": "Previous Coach Details",
-          "body": "Do you want to get the details of the previously booked coach"
-        },
-        "response_semantics": {
-          "data_path": "$",
-          "static_template": {
-            "$when": "${error==false}",
-            "type": "AdaptiveCard",
-            "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-            "version": "1.5",
-            "body": [
-              {
-                "type": "ColumnSet",
-                "columns": [
-                  {
-                    "type": "Column",
-                    "items": [
-                      {
-                        "type": "Image",
-                        "style": "Person",
-                        "url": "${data.image_url}",
-                        "altText": "${data.first_name}",
-                        "size": "Small"
-                      }
-                    ],
-                    "width": "auto"
-                  },
-                  {
-                    "type": "Column",
-                    "items": [
-                      {
-                        "type": "TextBlock",
-                        "weight": "Bolder",
-                        "text": "${data.first_name} ${if(data.last_name, data.last_name, '')}",
-                        "wrap": true
-                      },
-                      {
-                        "type": "TextBlock",
-                        "spacing": "None",
-                        "text": "📍 ${data.city} (${data.timezone})",
-                        "isSubtle": true,
-                        "wrap": true
-                      }
-                    ],
-                    "width": "stretch"
-                  }
-                ]
-              },
-              {
-                "type": "ColumnSet",
-                "columns": [
-                  {
-                    "type": "Column",
-                    "items": [
-                      {
-                        "type": "TextBlock",
-                        "text": "🌐 ${data.languages}",
-                        "wrap": true
-                      }
-                    ],
-                    "width": "auto"
-                  }
-                ]
-              },
-              {
-                "type": "ColumnSet",
-                "columns": [
-                  {
-                    "type": "Column",
-                    "items": [
-                      {
-                        "type": "TextBlock",
-                        "text": "**Specializations:** ${data.specializations}",
-                        "wrap": true
-                      }
-                    ],
-                    "width": "auto"
-                  }
-                ]
-              },
-              {
-                "type": "ColumnSet",
-                "columns": [
-                  {
-                    "type": "Column",
-                    "items": [
-                      {
-                        "type": "TextBlock",
-                        "text": "**Year of Coaching Start:** ${data.years_coaching}",
-                        "wrap": true
-                      },
-                      {
-                        "type": "TextBlock",
-                        "text": "**Years of Corporate Experience:** ${data.years_experience}",
-                        "wrap": true
-                      },
-                      {
-                        "type": "TextBlock",
-                        "text": "**Certified by:** ${data.certified_by}",
-                        "wrap": true
-                      }
-                    ],
-                    "width": "auto"
-                  }
-                ]
-              }
-            ],
-            "actions": [
-              {
-                "type": "Action.OpenUrl",
-                "title": "Website",
-                "url": "${data.website}"
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
-      "name": "getUpcomingMeeting",
-      "description": "Returns the details of the upcoming meeting scheduled for a client based on their time zone",
-      "capabilities": {
-        "confirmation": {
-          "type": "AdaptiveCard",
-          "title": "Upcoming Meeting Details",
-          "body": "Do you want to get the details of the upcoming meeting?"
-        },
-        "response_semantics": {
-          "data_path": "$",
-          "properties": {
-            "title": "$.meeting.title",
-            "subtitle": "$.meeting.description"
+            "title": "Call off a Coaching Session",
+            "body": "Do you want to proceed with calling off the booked session?"
           },
-          "static_template": {
+          "response_semantics": {
+            "data_path": "$",
+            "properties": {
+              "title": "$.data.coach_name",
+              "subtitle": "$.message"
+            },
+            "static_template": {
+              "type": "AdaptiveCard",
+              "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+              "version": "1.5",
+              "body": [
+                {
+                  "$when": "${error==false}",
+                  "type": "TextBlock",
+                  "size": "Medium",
+                  "weight": "Bolder",
+                  "text": "Session Cancelled!"
+                },
+                {
+                  "$when": "${error!=false}",
+                  "type": "TextBlock",
+                  "size": "Small",
+                  "text": "${message}",
+                  "wrap": true
+                },
+                {
+                  "$when": "${error==false}",
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "items": [
+                        {
+                          "type": "Image",
+                          "style": "Person",
+                          "url": "${data.coach_avatar}",
+                          "altText": "${data.coach_name}",
+                          "size": "Small"
+                        }
+                      ],
+                      "width": "auto"
+                    },
+                    {
+                      "type": "Column",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "weight": "Bolder",
+                          "text": "${data.coach_name}",
+                          "wrap": true
+                        },
+                        {
+                          "type": "TextBlock",
+                          "spacing": "None",
+                          "text": "${data.coach_time_zone}",
+                          "isSubtle": true,
+                          "wrap": true
+                        }
+                      ],
+                      "width": "stretch"
+                    }
+                  ]
+                },
+                {
+                  "$when": "${error==false}",
+                  "type": "TextBlock",
+                  "text": "📅 ${formatDateTime(data.meeting_start_time, 'dd MMMM - h:mm tt')} - ${formatDateTime(data.meeting_end_time, 'h:mm tt')}"
+                },
+                {
+                  "$when": "${error==false}",
+                  "type": "TextBlock",
+                  "text": "**Description:** ${data.client_meeting_note}",
+                  "wrap": true
+                }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "name": "getCoachDetails",
+        "description": "Returns coach details including first name, last name, email, phone number, profile image, and timezone",
+        "capabilities": {
+          "confirmation": {
             "type": "AdaptiveCard",
-            "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-            "version": "1.5",
-            "body": [
-              {
-                "type": "TextBlock",
-                "size": "Medium",
-                "weight": "Bolder",
-                "text": "Upcoming Meeting Details"
-              },
-              {
-                "type": "ColumnSet",
-                "columns": [
-                  {
-                    "type": "Column",
-                    "items": [
-                      {
-                        "type": "Image",
-                        "style": "Person",
-                        "url": "${coach_avatar}",
-                        "altText": "${coach_name}",
-                        "size": "Small"
-                      }
-                    ],
-                    "width": "auto"
-                  },
-                  {
-                    "type": "Column",
-                    "items": [
-                      {
-                        "type": "TextBlock",
-                        "weight": "Bolder",
-                        "text": "${coach_name}",
-                        "wrap": true
-                      },
-                      {
-                        "type": "TextBlock",
-                        "spacing": "None",
-                        "text": "${coach_time_zone}",
-                        "isSubtle": true,
-                        "wrap": true
-                      }
-                    ],
-                    "width": "stretch"
-                  }
-                ]
-              },
-              {
-                "type": "TextBlock",
-                "text": "📅 ${formatDateTime(meeting_start_time, 'dd MMMM - h tt')} - ${formatDateTime(meeting_end_time, 'h tt')}"
-              },
-              {
-                "type": "TextBlock",
-                "text": "**Description:** ${client_meeting_note}",
-                "wrap": true
-              }
-            ]
+            "title": "Coach Details",
+            "body": "Do you want to get coach details?"
+          },
+          "response_semantics": {
+            "data_path": "$",
+            "properties": {
+              "title": "$.message",
+              "subtitle": "$.data.first_name"
+            },
+            "static_template": {
+              "type": "AdaptiveCard",
+              "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+              "version": "1.5",
+              "body": [
+                {
+                  "$when": "${error == 'more_than_one_coach'}",
+                  "type": "TextBlock",
+                  "text": "${message}",
+                  "wrap": true
+                },
+                {
+                  "$when": "${error == 'more_than_one_coach'}",
+                  "type": "Container",
+                  "items": [
+                    {
+                      "type": "ColumnSet",
+                      "$data": "${data}",
+                      "columns": [
+                        {
+                          "type": "Column",
+                          "items": [
+                            {
+                              "type": "Image",
+                              "style": "Person",
+                              "url": "${image_url}",
+                              "altText": "${first_name}",
+                              "size": "Small"
+                            }
+                          ],
+                          "width": "auto"
+                        },
+                        {
+                          "type": "Column",
+                          "items": [
+                            {
+                              "type": "TextBlock",
+                              "weight": "Bolder",
+                              "text": "${first_name} ${if(last_name, last_name, '')}",
+                              "wrap": true
+                            },
+                            {
+                              "type": "TextBlock",
+                              "spacing": "None",
+                              "size": "Small",
+                              "text": "${if(timezone, timezone, '')}",
+                              "isSubtle": true,
+                              "wrap": true
+                            }
+                          ],
+                          "width": "stretch"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$when": "${error==false}",
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "items": [
+                        {
+                          "type": "Image",
+                          "style": "Person",
+                          "url": "${data.image_url}",
+                          "altText": "${data.first_name}",
+                          "size": "Small"
+                        }
+                      ],
+                      "width": "auto"
+                    },
+                    {
+                      "type": "Column",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "weight": "Bolder",
+                          "text": "${data.first_name} ${if(data.last_name, data.last_name, '')}",
+                          "wrap": true
+                        },
+                        {
+                          "type": "TextBlock",
+                          "spacing": "None",
+                          "text": "📍 ${data.city} (${data.timezone})",
+                          "isSubtle": true,
+                          "wrap": true
+                        }
+                      ],
+                      "width": "stretch"
+                    }
+                  ]
+                },
+                {
+                  "$when": "${error==false}",
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "text": "🌐 ${data.languages}",
+                          "wrap": true
+                        }
+                      ],
+                      "width": "auto"
+                    }
+                  ]
+                },
+                {
+                  "$when": "${error==false}",
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "text": "**Specializations:** ${data.specializations}",
+                          "wrap": true
+                        }
+                      ],
+                      "width": "stretch"
+                    }
+                  ]
+                },
+                {
+                  "$when": "${error==false}",
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "text": "**Years of Coaching:** ${data.years_coaching}",
+                          "wrap": true
+                        },
+                        {
+                          "type": "TextBlock",
+                          "text": "**Years of Experience:** ${data.years_experience}",
+                          "wrap": true
+                        },
+                        {
+                          "type": "TextBlock",
+                          "text": "**Certified by:** ${data.certified_by}",
+                          "wrap": true
+                        }
+                      ],
+                      "width": "auto"
+                    }
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "$when": "${error==false}",
+                  "type": "Action.OpenUrl",
+                  "title": "Website",
+                  "url": "${data.website}"
+                }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "name": "getCoachEvents",
+        "description": "Returns events for a coach from today and before a certain end date",
+        "capabilities": {
+          "confirmation": {
+            "type": "AdaptiveCard",
+            "title": "Coach Availability for Selected Date",
+            "body": "Do you want to get the coach's availability for the provided date?"
+          },
+          "response_semantics": {
+            "data_path": "$",
+            "properties": {
+              "title": "$.message",
+              "subtitle": "$.data.coach_time_zone"
+            },
+            "static_template": {
+              "type": "AdaptiveCard",
+              "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+              "version": "1.5",
+              "body": [
+                {
+                  "$when" : "${error == false}",
+                  "type": "TextBlock",
+                  "size": "Medium",
+                  "weight": "Bolder",
+                  "text": "Coach Availability Hours"
+                },
+                {
+                  "$when" : "${error == false}",
+                  "type": "TextBlock",
+                  "text": "⏰ Please note that coaches are available exclusively between 7:00 AM and 9:00 PM. Kindly ensure to select a time slot within these hours.",
+                  "wrap": true
+                },
+                {
+                  "$when" : "${error == false}",
+                  "type": "TextBlock",
+                  "text": "**Coach Timezone:** ${data.coach_time_zone}",
+                  "wrap": true
+                },
+                {
+                  "$when" : "${error == 'more_than_one_coach'}",
+                  "type": "TextBlock",
+                  "text": "${message}",
+                  "wrap": true
+                },
+                {
+                  "$when" : "${error == 'more_than_one_coach'}",
+                  "type": "Container",
+                  "items": [
+                    {
+                      "type": "ColumnSet",
+                      "$data": "${data}",
+                      "columns": [
+                        {
+                          "type": "Column",
+                          "items": [
+                            {
+                              "type": "Image",
+                              "style": "Person",
+                              "url": "${image_url}",
+                              "altText": "${first_name}",
+                              "size": "Small"
+                            }
+                          ],
+                          "width": "auto"
+                        },
+                        {
+                          "type": "Column",
+                          "items": [
+                            {
+                              "type": "TextBlock",
+                              "weight": "Bolder",
+                              "text": "${first_name} ${last_name}",
+                              "wrap": true
+                            },
+                            {
+                              "type": "TextBlock",
+                              "spacing": "None",
+                              "size": "Small",
+                              "text": "${timezone}",
+                              "isSubtle": true,
+                              "wrap": true
+                            }
+                          ],
+                          "width": "stretch"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "name": "getPreviousCoaches",
+        "description": "Returns most recent coach a specific client has previously booked.",
+        "capabilities": {
+          "confirmation": {
+            "type": "AdaptiveCard",
+            "title": "Previous Coach Details",
+            "body": "Do you want to get the details of the previously booked coach"
+          },
+          "response_semantics": {
+            "data_path": "$",
+            "properties": {
+              "title": "$.message",
+              "subtitle": "$.data.first_name"
+            },
+            "static_template": {
+              "$when": "${error==false}",
+              "type": "AdaptiveCard",
+              "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+              "version": "1.5",
+              "body": [
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "items": [
+                        {
+                          "type": "Image",
+                          "style": "Person",
+                          "url": "${data.image_url}",
+                          "altText": "${data.first_name}",
+                          "size": "Small"
+                        }
+                      ],
+                      "width": "auto"
+                    },
+                    {
+                      "type": "Column",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "weight": "Bolder",
+                          "text": "${data.first_name} ${if(data.last_name, data.last_name, '')}",
+                          "wrap": true
+                        },
+                        {
+                          "type": "TextBlock",
+                          "spacing": "None",
+                          "text": "📍 ${data.city} (${data.timezone})",
+                          "isSubtle": true,
+                          "wrap": true
+                        }
+                      ],
+                      "width": "stretch"
+                    }
+                  ]
+                },
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "text": "🌐 ${data.languages}",
+                          "wrap": true
+                        }
+                      ],
+                      "width": "auto"
+                    }
+                  ]
+                },
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "text": "**Specializations:** ${data.specializations}",
+                          "wrap": true
+                        }
+                      ],
+                      "width": "auto"
+                    }
+                  ]
+                },
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "text": "**Year of Coaching Start:** ${data.years_coaching}",
+                          "wrap": true
+                        },
+                        {
+                          "type": "TextBlock",
+                          "text": "**Years of Corporate Experience:** ${data.years_experience}",
+                          "wrap": true
+                        },
+                        {
+                          "type": "TextBlock",
+                          "text": "**Certified by:** ${data.certified_by}",
+                          "wrap": true
+                        }
+                      ],
+                      "width": "auto"
+                    }
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": "Action.OpenUrl",
+                  "title": "Website",
+                  "url": "${data.website}"
+                }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "name": "getUpcomingMeeting",
+        "description": "Returns the details of the upcoming meeting scheduled for a client based on their time zone",
+        "capabilities": {
+          "confirmation": {
+            "type": "AdaptiveCard",
+            "title": "Upcoming Meeting Details",
+            "body": "Do you want to get the details of the upcoming meeting?"
+          },
+          "response_semantics": {
+            "data_path": "$",
+            "properties": {
+              "title": "$.coach_name",
+              "subtitle": "$.client_meeting_note"
+            },
+            "static_template": {
+              "type": "AdaptiveCard",
+              "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+              "version": "1.5",
+              "body": [
+                {
+                  "type": "TextBlock",
+                  "size": "Medium",
+                  "weight": "Bolder",
+                  "text": "Upcoming Meeting Details"
+                },
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "items": [
+                        {
+                          "type": "Image",
+                          "style": "Person",
+                          "url": "${coach_avatar}",
+                          "altText": "${coach_name}",
+                          "size": "Small"
+                        }
+                      ],
+                      "width": "auto"
+                    },
+                    {
+                      "type": "Column",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "weight": "Bolder",
+                          "text": "${coach_name}",
+                          "wrap": true
+                        },
+                        {
+                          "type": "TextBlock",
+                          "spacing": "None",
+                          "text": "${coach_time_zone}",
+                          "isSubtle": true,
+                          "wrap": true
+                        }
+                      ],
+                      "width": "stretch"
+                    }
+                  ]
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "📅 ${formatDateTime(meeting_start_time, 'dd MMMM - h:mm tt')} - ${formatDateTime(meeting_end_time, 'h:mm tt')}"
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "**Description:** ${client_meeting_note}",
+                  "wrap": true
+                }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "name": "chatWithAICoach",
+        "description": "Returns the response of either AI Flash Coach or AI RolePlay coach for a user prompt",
+        "capabilities": {
+          "confirmation": {
+            "type": "AdaptiveCard",
+            "title": "Coachello AI Coach",
+            "body": "Do you want to talk with Coachello AI Coach?"
+          },
+          "response_semantics": {
+            "data_path": "$",
+            "properties": {
+              "title": "$.message",
+              "subtitle": "$.reply"
+            }
+          }
+        }
+      },
+      {
+        "name": "bookCoachingSession",
+        "description": "Returns the outcome of booking a coaching session with a coach, whether success or failure",
+        "capabilities": {
+          "confirmation": {
+            "type": "AdaptiveCard",
+            "title": "Book a Coaching Session",
+            "body": "Do you want to proceed with booking a coaching session?"
+          },
+          "response_semantics": {
+            "data_path": "$",
+            "properties": {
+              "title": "$.data.coach_name",
+              "subtitle": "$.message"
+            },
+            "static_template": {
+              "type": "AdaptiveCard",
+              "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+              "version": "1.5",
+              "body": [
+                {
+                  "$when": "${error == 'more_than_one_coach'}",
+                  "type": "TextBlock",
+                  "text": "${message}",
+                  "wrap": true
+                },
+                {
+                  "$when": "${error == 'more_than_one_coach'}",
+                  "type": "Container",
+                  "items": [
+                    {
+                      "type": "ColumnSet",
+                      "$data": "${data}",
+                      "columns": [
+                        {
+                          "type": "Column",
+                          "items": [
+                            {
+                              "type": "Image",
+                              "style": "Person",
+                              "url": "${image_url}",
+                              "altText": "${first_name}",
+                              "size": "Small"
+                            }
+                          ],
+                          "width": "auto"
+                        },
+                        {
+                          "type": "Column",
+                          "items": [
+                            {
+                              "type": "TextBlock",
+                              "weight": "Bolder",
+                              "text": "${first_name} ${last_name}",
+                              "wrap": true
+                            },
+                            {
+                              "type": "TextBlock",
+                              "spacing": "None",
+                              "size": "Small",
+                              "text": "${timezone}",
+                              "isSubtle": true,
+                              "wrap": true
+                            }
+                          ],
+                          "width": "stretch"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$when": "${error==false}",
+                  "type": "TextBlock",
+                  "size": "Medium",
+                  "weight": "Bolder",
+                  "text": "Session Booked!"
+                },
+                {
+                  "$when": "${error!=false}",
+                  "type": "TextBlock",
+                  "size": "Medium",
+                  "weight": "Bolder",
+                  "text": "❌ Unable to book the session!"
+                },
+                {
+                  "$when": "${error!=false}",
+                  "type": "TextBlock",
+                  "size": "Small",
+                  "text": "${message}",
+                  "wrap": true
+                },
+                {
+                  "$when": "${error==false}",
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "items": [
+                        {
+                          "type": "Image",
+                          "style": "Person",
+                          "url": "${data.coach_avatar}",
+                          "altText": "${data.coach_name}",
+                          "size": "Small"
+                        }
+                      ],
+                      "width": "auto"
+                    },
+                    {
+                      "type": "Column",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "weight": "Bolder",
+                          "text": "${data.coach_name}",
+                          "wrap": true
+                        },
+                        {
+                          "type": "TextBlock",
+                          "spacing": "None",
+                          "text": "${data.coach_time_zone}",
+                          "isSubtle": true,
+                          "wrap": true
+                        }
+                      ],
+                      "width": "stretch"
+                    }
+                  ]
+                },
+                {
+                  "$when": "${error==false}",
+                  "type": "TextBlock",
+                  "text": "📅 ${formatDateTime(data.meeting_start_time, 'dd MMMM - h:mm tt')} - ${formatDateTime(data.meeting_end_time, 'h:mm tt')}"
+                },
+                {
+                  "$when": "${error==false}",
+                  "type": "TextBlock",
+                  "text": "**Description:** ${data.client_meeting_note}",
+                  "wrap": true
+                }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "name": "rescheduleCoachingSession",
+        "description": "Returns the outcome of the reschedule process whether success or failure.",
+        "capabilities": {
+          "confirmation": {
+            "type": "AdaptiveCard",
+            "title": "Reschedule a Coaching Session",
+            "body": "Do you want to proceed to reschedule the coaching session?"
+          },
+          "response_semantics": {
+            "data_path": "$",
+            "properties": {
+              "title": "$.data.coach_name",
+              "subtitle": "$.message"
+            },
+            "static_template": {
+              "$when": "${error==false}",
+              "type": "AdaptiveCard",
+              "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+              "version": "1.5",
+              "body": [
+                {
+                  "type": "TextBlock",
+                  "size": "Medium",
+                  "weight": "Bolder",
+                  "text": "Session Rescheduled!"
+                },
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "items": [
+                        {
+                          "type": "Image",
+                          "style": "Person",
+                          "url": "${data.coach_avatar}",
+                          "altText": "${data.coach_name}",
+                          "size": "Small"
+                        }
+                      ],
+                      "width": "auto"
+                    },
+                    {
+                      "type": "Column",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "weight": "Bolder",
+                          "text": "${data.coach_name}",
+                          "wrap": true
+                        },
+                        {
+                          "type": "TextBlock",
+                          "spacing": "None",
+                          "text": "${data.coach_time_zone}",
+                          "isSubtle": true,
+                          "wrap": true
+                        }
+                      ],
+                      "width": "stretch"
+                    }
+                  ]
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "📅 ${formatDateTime(data.meeting_start_time, 'dd MMMM - h:mm tt')} - ${formatDateTime(data.meeting_end_time, 'h:mm tt')}"
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "**Description:** ${data.client_meeting_note}",
+                  "wrap": true
+                }
+              ]
+            }
           }
         }
       }
-    },
-    {
-      "name": "chatWithAICoach",
-      "description": "Returns the response of either AI Flash Coach or AI RolePlay coach for a user prompt",
-      "capabilities": {
-        "confirmation": {
-          "type": "AdaptiveCard",
-          "title": "Coachello AI Coach",
-          "body": "Do you want to talk with Coachello AI Coach?"
-        },
-        "response_semantics": {
-          "data_path": "$"
-        }
-      }
-    },
-    {
-      "name": "bookCoachingSession",
-      "description": "Returns the outcome of booking a coaching session with a coach, whether success or failure",
-      "capabilities": {
-        "confirmation": {
-          "type": "AdaptiveCard",
-          "title": "Book a Coaching Session",
-          "body": "Do you want to proceed with booking a coaching session?"
-        },
-        "response_semantics": {
-          "data_path": "$",
-          "static_template": {
-            "type": "AdaptiveCard",
-            "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-            "version": "1.5",
-            "body": [
-              {
-                "$when": "${error == 'more_than_one_coach'}",
-                "type": "TextBlock",
-                "text": "${message}",
-                "wrap": true
-              },
-              {
-                "$when": "${error == 'more_than_one_coach'}",
-                "type": "Container",
-                "items": [
-                  {
-                    "type": "ColumnSet",
-                    "$data": "${data}",
-                    "columns": [
-                      {
-                        "type": "Column",
-                        "items": [
-                          {
-                            "type": "Image",
-                            "style": "Person",
-                            "url": "${image_url}",
-                            "altText": "${first_name}",
-                            "size": "Small"
-                          }
-                        ],
-                        "width": "auto"
-                      },
-                      {
-                        "type": "Column",
-                        "items": [
-                          {
-                            "type": "TextBlock",
-                            "weight": "Bolder",
-                            "text": "${first_name} ${last_name}",
-                            "wrap": true
-                          },
-                          {
-                            "type": "TextBlock",
-                            "spacing": "None",
-                            "size": "Small",
-                            "text": "${timezone}",
-                            "isSubtle": true,
-                            "wrap": true
-                          }
-                        ],
-                        "width": "stretch"
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "$when": "${error==false}",
-                "type": "TextBlock",
-                "size": "Medium",
-                "weight": "Bolder",
-                "text": "Session Booked!"
-              },
-              {
-                "$when": "${error!=false}",
-                "type": "TextBlock",
-                "size": "Medium",
-                "weight": "Bolder",
-                "text": "❌ Unable to book the session!"
-              },
-              {
-                "$when": "${error!=false}",
-                "type": "TextBlock",
-                "size": "Small",
-                "text": "${message}",
-                "wrap": true
-              },
-              {
-                "$when": "${error==false}",
-                "type": "ColumnSet",
-                "columns": [
-                  {
-                    "type": "Column",
-                    "items": [
-                      {
-                        "type": "Image",
-                        "style": "Person",
-                        "url": "${data.coach_avatar}",
-                        "altText": "${data.coach_name}",
-                        "size": "Small"
-                      }
-                    ],
-                    "width": "auto"
-                  },
-                  {
-                    "type": "Column",
-                    "items": [
-                      {
-                        "type": "TextBlock",
-                        "weight": "Bolder",
-                        "text": "${data.coach_name}",
-                        "wrap": true
-                      },
-                      {
-                        "type": "TextBlock",
-                        "spacing": "None",
-                        "text": "${data.coach_time_zone}",
-                        "isSubtle": true,
-                        "wrap": true
-                      }
-                    ],
-                    "width": "stretch"
-                  }
-                ]
-              },
-              {
-                "$when": "${error==false}",
-                "type": "TextBlock",
-                "text": "📅 ${formatDateTime(data.meeting_start_time, 'dd MMMM - h tt')} - ${formatDateTime(data.meeting_end_time, 'h tt')}"
-              },
-              {
-                "$when": "${error==false}",
-                "type": "TextBlock",
-                "text": "**Description:** ${data.client_meeting_note}",
-                "wrap": true
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
-      "name": "rescheduleCoachingSession",
-      "description": "Returns the outcome of the reschedule process whether success or failure.",
-      "capabilities": {
-        "confirmation": {
-          "type": "AdaptiveCard",
-          "title": "Reschedule a Coaching Session",
-          "body": "Do you want to proceed to reschedule the coaching session?"
-        },
-        "response_semantics": {
-          "data_path": "$",
-          "static_template": {
-            "$when": "${error==false}",
-            "type": "AdaptiveCard",
-            "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-            "version": "1.5",
-            "body": [
-              {
-                "type": "TextBlock",
-                "size": "Medium",
-                "weight": "Bolder",
-                "text": "Session Rescheduled!"
-              },
-              {
-                "type": "ColumnSet",
-                "columns": [
-                  {
-                    "type": "Column",
-                    "items": [
-                      {
-                        "type": "Image",
-                        "style": "Person",
-                        "url": "${data.coach_avatar}",
-                        "altText": "${data.coach_name}",
-                        "size": "Small"
-                      }
-                    ],
-                    "width": "auto"
-                  },
-                  {
-                    "type": "Column",
-                    "items": [
-                      {
-                        "type": "TextBlock",
-                        "weight": "Bolder",
-                        "text": "${data.coach_name}",
-                        "wrap": true
-                      },
-                      {
-                        "type": "TextBlock",
-                        "spacing": "None",
-                        "text": "${data.coach_time_zone}",
-                        "isSubtle": true,
-                        "wrap": true
-                      }
-                    ],
-                    "width": "stretch"
-                  }
-                ]
-              },
-              {
-                "type": "TextBlock",
-                "text": "📅 ${formatDateTime(data.meeting_start_time, 'dd MMMM - h tt')} - ${formatDateTime(data.meeting_end_time, 'h tt')}"
-              },
-              {
-                "type": "TextBlock",
-                "text": "**Description:** ${data.client_meeting_note}",
-                "wrap": true
-              }
-            ]
-          }
-        }
-      }
-    }
-  ],
+    ],
   "runtimes": [
     {
       "type": "OpenApi",
