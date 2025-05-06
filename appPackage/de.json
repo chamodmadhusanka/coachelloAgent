@@ -1,7 +1,15 @@
 {
-    "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.19/MicrosoftTeams.Localization.schema.json",
-    "name.short": "Coachello Copilot Prod",
-    "name.full": "Coachello AI Copilot Prod",
-    "description.short": "Coachello’s Copilot ist Ihr Assistent für berufliche Weiterentwicklung.",
-    "description.full": "Coachello’s AI Copilot ist ein bahnbrechendes Tool, das entwickelt wurde, um die Coaching-Erfahrung zu revolutionieren, indem es fortschrittliche KI- und menschliche Coaching-Fähigkeiten kombiniert.\n\nEs ermöglicht Ihnen, Coaching-Sitzungen zu buchen, KI-Coaching-Sitzungen durchzuführen und Arbeitssituationen nachzustellen.\n\n\nMit AI Copilot können Nutzer mühelos Coaching-Sitzungen mit erstklassigen Fachleuten buchen oder die Kraft KI-gestützter Coaching-Sitzungen für persönliche Beratung und Unterstützung entdecken. Diese innovative Funktion ermöglicht es Ihnen auch, Arbeitsplatzszenarien nachzustellen, sodass Sie sich auf anspruchsvolle Gespräche, Präsentationen und Entscheidungssituationen vorbereiten können. Egal, ob Sie menschliche Interaktion oder hochmoderne KI-Coaching-Unterstützung suchen, Coachello’s AI Copilot bietet eine vielseitige und transformative Coaching-Lösung, die auf Ihre Bedürfnisse zugeschnitten ist. \n\nBitte beachten Sie, dass Kunden über ihre Organisation Berechtigungen erhalten und Benutzer ein Konto bei Coachello haben müssen, um auf die Plattform zugreifen zu können. Um diese App zu nutzen, wenden Sie sich bitte an unser Support-Team unter coach@coachello.io für weitere Details. \n\nCoachello AI Copilot funktioniert mit Microsoft 365 Copilot."
+  "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.19/MicrosoftTeams.Localization.schema.json",
+  "name.short": "Coachello Copilot",
+  "name.full": "Coachello AI Copilot",
+  "description.short": "Coachello’s Copilot ist Ihr Assistent für berufliche Weiterentwicklung.",
+  "description.full": "Coachello’s AI Copilot ist ein bahnbrechendes Tool, das entwickelt wurde, um die Coaching-Erfahrung zu revolutionieren, indem es fortschrittliche KI- und menschliche Coaching-Fähigkeiten kombiniert.\n\nEs ermöglicht Ihnen, Coaching-Sitzungen zu buchen, KI-Coaching-Sitzungen durchzuführen und Arbeitssituationen nachzustellen.\n\n\nMit AI Copilot können Nutzer mühelos Coaching-Sitzungen mit erstklassigen Fachleuten buchen oder die Kraft KI-gestützter Coaching-Sitzungen für persönliche Beratung und Unterstützung entdecken. Diese innovative Funktion ermöglicht es Ihnen auch, Arbeitsplatzszenarien nachzustellen, sodass Sie sich auf anspruchsvolle Gespräche, Präsentationen und Entscheidungssituationen vorbereiten können. Egal, ob Sie menschliche Interaktion oder hochmoderne KI-Coaching-Unterstützung suchen, Coachello’s AI Copilot bietet eine vielseitige und transformative Coaching-Lösung, die auf Ihre Bedürfnisse zugeschnitten ist. \n\nBitte beachten Sie, dass Kunden über ihre Organisation Berechtigungen erhalten und Benutzer ein Konto bei Coachello haben müssen, um auf die Plattform zugreifen zu können. Um diese App zu nutzen, wenden Sie sich bitte an unser Support-Team unter coach@coachello.io für weitere Details. \n\nCoachello AI Copilot funktioniert mit Microsoft 365 Copilot.",
+  "localizationKeys": {
+    "Starter1_Title": "Eine neue Coaching-Sitzung buchen auf",
+    "Starter1_Text": "Ich muss eine neue Coaching-Sitzung mit meinem Coach auf ",
+    "Starter2_Title": "Eine schnelle KI-Coaching-Sitzung starten",
+    "Starter2_Text": "Wie kann ich Herausforderungen in Bezug auf ",
+    "Starter3_Title": "Ein Szenario nachspielen.",
+    "Starter3_Text": "Können wir eine Rollenspiel-Sitzung machen, bei der "
   }
+}

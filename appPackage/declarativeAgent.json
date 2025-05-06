@@ -6,16 +6,16 @@
     "instructions": "$[file('instruction.txt')]",
     "conversation_starters": [
         {
-            "title": "Book a new coaching session on",
-            "text": "I need to book a new coaching session with my coach on "
+            "title": "[[Starter1_Title]]",
+            "text": "[[Starter1_Text]]"
         },
         {
-            "title": "Start a quick AI coaching session",
-            "text": "How can I overcome challenges related to "
+            "title": "[[Starter2_Title]]",
+            "text": "[[Starter2_Text]]"
         },
         {
-            "title": "Role play a scenario.",
-            "text": "Can we do a role play session where "
+            "title": "[[Starter3_Title]]",
+            "text": "[[Starter3_Text]]"
         }
     ],
     "actions": [
@@ -23,5 +23,5 @@
             "id": "action_1",
             "file": "ai-plugin.json"
         }
-    ]
+    ]   
 }

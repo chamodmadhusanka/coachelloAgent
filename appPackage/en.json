@@ -1,0 +1,15 @@
+{
+    "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.19/MicrosoftTeams.Localization.schema.json",
+    "name.short": "Coachello Copilot",
+    "name.full": "Coachello AI Copilot",
+    "description.short": "Coachello’s Copilot is your professional development assistant.",
+    "description.full": "Coachello’s AI Copilot is a groundbreaking tool designed to revolutionize the coaching experience by combining advanced AI and human coaching capabilities.\n\nIt enables you to book coaching sessions, conduct AI coaching sessions and role play situations at work.\n\n\nWith AI Copilot, users can effortlessly book coaching sessions with world-class professionals or explore the power of AI-driven coaching sessions for personalized guidance and support. This innovative feature also allows you to role-play workplace scenarios, helping you prepare for challenging conversations, presentations, and decision-making situations. Whether you seek human connection or cutting-edge AI coaching support, Coachello’s AI Copilot provides a versatile and transformative coaching solution tailored to your needs. \n\nPlease note that clients will be granted permissions through their organization, and users must have an account with Coachello to access the platform. In order to use this app, please contact our support team at coach@coachello.io for more details.\n\n Coachello AI Copilot works with Microsoft 365 Copilot.",
+    "localizationKeys": {
+        "Starter1_Title": "Book a new coaching session on",
+        "Starter1_Text": "I need to book a new coaching session with my coach on ",
+        "Starter2_Title": "Start a quick AI coaching session",
+        "Starter2_Text": "How can I overcome challenges related to ",
+        "Starter3_Title": "Role play a scenario.",
+        "Starter3_Text": "Can we do a role play session where "
+    }
+  }
